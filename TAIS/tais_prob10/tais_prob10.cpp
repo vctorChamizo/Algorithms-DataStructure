@@ -16,10 +16,14 @@ bool resolver(const bintree<char>& arbol, int& altura) {
 		altura = 0;
 		return true;
 	}
-	else if (arbol.left().empty() && arbol.right().empty()) return true;
+	else if (arbol.left().empty() && arbol.right().empty()){
+		
+		altura = 1;
+		return true;
+	}
 	else {
 
-		int altL = 1, altR = 1;
+		int altL, altR;
 
 		bool equL = resolver(arbol.left(), altL);
 		bool equR = resolver(arbol.right(), altR);
@@ -70,11 +74,9 @@ bool resolver(const bintree<char>& arbol, int& altura) {
 void resuelveCaso() {
 	
 	bintree <char> arbol;
-	int altura = 1;
+	int altura;
 
 	arbol = leerArbol('.');
-
-	//bool sol = resolver(arbol, altura, equilibrado);
 	
 	bool sol = resolver(arbol, altura);
 
