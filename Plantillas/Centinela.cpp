@@ -1,5 +1,5 @@
-// Nombre del alumno .....
-// Usuario del Juez ......
+// Nombre del alumno: Víctor Chamizo Rodríguez 
+// Usuario del Juez:
 
 
 #include <iostream>
@@ -16,17 +16,13 @@ TipoSolucion resolver(TipoDatos datos) {
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
-    // leer los datos de la entrada
     
     if (caso especial)
         return false;
     
     TipoSolucion sol = resolver(datos);
     
-    // escribir sol
-    
     return true;
-    
 }
 
 int main() {
@@ -37,11 +33,8 @@ int main() {
      auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
      #endif 
     
-    
-    while (resuelveCaso())
-        ;
+    while (resuelveCaso());
 
-    
     // Para restablecer entrada. Comentar para acepta el reto
      #ifndef DOMJUDGE // para dejar todo como estaba al principio
      std::cin.rdbuf(cinbuf);
