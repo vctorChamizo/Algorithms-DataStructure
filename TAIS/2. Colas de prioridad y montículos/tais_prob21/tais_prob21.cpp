@@ -14,9 +14,9 @@ struct tUser {
 	int acumulado;
 	int tiempo;
 
-	bool operator < (tUser const& u2) const{
+	bool operator < (tUser const& u) const{
 
-		return acumulado < u2.acumulado || (acumulado == u2.acumulado && id < u2.id);
+		return acumulado < u.acumulado || (acumulado == u.acumulado && id < u.id);
 	}
 };
 
