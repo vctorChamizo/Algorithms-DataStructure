@@ -1,6 +1,5 @@
 // Nombre del alumno Víctor Chamizo Rodríguez
-// Usuario del Juez ......
-
+// Usuario del Juez 
 
 #include <iostream>
 #include <iomanip>
