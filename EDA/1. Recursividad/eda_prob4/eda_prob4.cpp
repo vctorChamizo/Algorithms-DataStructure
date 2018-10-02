@@ -1,5 +1,12 @@
-﻿// Nombre del alumno Víctor Chamizo Rodríguez
-// Usuario del Juez E12
+﻿// Nombre del alumno: Víctor Chamizo Rodríguez
+// Usuario del Juez: E12
+
+/*
+EL problema se resuelve mediante recursividad no final, eliminado los números
+pares de la secuencia y guardando las posiciones que les corresponderá a los 
+numeros impares cuando se estén reconstryendo el nuevo número a la vuelta de las
+funcioens llamadas.
+*/
 
 
 #include <iostream>
@@ -8,8 +15,7 @@
 #include <math.h>
 
 
-// función que resuelve el problema
-long long int resolver(long long int n, long long int potencia) {
+long long int eliminarPares(long long int n, long long int potencia) {
 
 	if (n / 10 == 0) {
 
@@ -24,45 +30,42 @@ long long int resolver(long long int n, long long int potencia) {
 
 		potencia = potencia * 10;
 
-		long long int numero = resolver(n / 10, potencia);
+		long long int numero = eliminarPares(n / 10, potencia);
 
 		return numero + (aux * pot);
 	}
-	else return resolver(n / 10, potencia);
+	else return eliminarPares(n / 10, potencia);
 }
 
-// Resuelve un caso de prueba, leyendo de la entrada la
-// configuración, y escribiendo la respuesta
+
 bool resuelveCaso() {
 
-	long long int n;
+	long long int numero;
 
-	std::cin >> n;
+	std::cin >> numero;
 
 	if (!std::cin) return false;
 
 	long long int potencia = 1;
 
-	long long int sol = resolver(n, potencia);
+	long long int nSinPares = eliminarPares(numero, potencia);
 
-	std::cout << sol << std::endl;
+	std::cout << nSinPares << std::endl;
 
 	return true;
 }
 
 
 int main() {
-	// Para la entrada por fichero.
-	// Comentar para acepta el reto
+
 #ifndef DOMJUDGE
 	std::ifstream in("datos.txt");
-	auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+	auto cinbuf = std::cin.rdbuf(in.rdbuf());
 #endif 
 
 	while (resuelveCaso());
 
-	// Para restablecer entrada. Comentar para acepta el reto
-#ifndef DOMJUDGE // para dejar todo como estaba al principio
+#ifndef DOMJUDGE
 	std::cin.rdbuf(cinbuf);
 	system("PAUSE");
 #endif

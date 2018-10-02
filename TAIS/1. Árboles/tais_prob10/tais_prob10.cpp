@@ -8,8 +8,8 @@
 #include <algorithm>
 #include "bintree_eda.h"
 
-// función que resuelve el problema
-bool resolver(const bintree<char>& arbol, int& altura) {
+
+bool esBinario(const bintree<char>& arbol, int& altura) {
 
 	if (arbol.empty()) {
 		
@@ -25,8 +25,8 @@ bool resolver(const bintree<char>& arbol, int& altura) {
 
 		int altL, altR;
 
-		bool equL = resolver(arbol.left(), altL);
-		bool equR = resolver(arbol.right(), altR);
+		bool equL = esBinario(arbol.left(), altL);
+		bool equR = esBinario(arbol.right(), altR);
 
 		altura = std::max(altL, altR) + 1;
 
@@ -38,7 +38,7 @@ bool resolver(const bintree<char>& arbol, int& altura) {
 	Controla el desiquilibrio del arbol saliendo de la función,
 	evitando el recorrido completo del árbol.
 */
-/*bool resolver(const bintree<char>& arbol, int& altura) {
+/*bool esBinario(const bintree<char>& arbol, int& altura) {
 
 	if (arbol.empty()) {
 		
@@ -54,11 +54,11 @@ bool resolver(const bintree<char>& arbol, int& altura) {
 
 		int altL, altR;
 
-		bool equL = resolver(arbol.left(), altL);
+		bool equL = esBinario(arbol.left(), altL);
 
 		if (equL) {
 
-			bool equR = resolver(arbol.right(), altR);
+			bool equR = esBinario(arbol.right(), altR);
 
 			altura = std::max(altL, altR) + 1;
 
@@ -69,8 +69,7 @@ bool resolver(const bintree<char>& arbol, int& altura) {
 	}
 }*/
 
-// Resuelve un caso de prueba, leyendo de la entrada la
-// configuración, y escribiendo la respuesta
+
 void resuelveCaso() {
 	
 	bintree <char> arbol;
@@ -78,29 +77,26 @@ void resuelveCaso() {
 
 	arbol = leerArbol('.');
 	
-	bool sol = resolver(arbol, altura);
+	bool sol = esBinario(arbol, altura);
 
 	if (sol) std::cout << "SI" << std::endl;
 	else std::cout << "NO" << std::endl;
 }
 
+
 int main() {
-	// Para la entrada por fichero.
-	// Comentar para acepta el reto
+
 #ifndef DOMJUDGE
 	std::ifstream in("datos.txt");
-	auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+	auto cinbuf = std::cin.rdbuf(in.rdbuf());
 #endif 
-
 
 	int numCasos;
 	std::cin >> numCasos;
 	for (int i = 0; i < numCasos; ++i)
 		resuelveCaso();
 
-
-	// Para restablecer entrada. Comentar para acepta el reto
-#ifndef DOMJUDGE // para dejar todo como estaba al principio
+#ifndef DOMJUDGE
 	std::cin.rdbuf(cinbuf);
 	system("PAUSE");
 #endif

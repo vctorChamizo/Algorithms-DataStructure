@@ -1,45 +1,44 @@
 ﻿// Nombre del alumno: Victor Chamizo Rodriguez
 // Usuario del Juez: E12
 
+/*
+El programa se resuelve aplicando recursividad no final, mediante el metodo de la
+multiplicacion del campesino egipcio.
+
+Dependiendo de si el numero es par o impar, realizamos un tipo de operación sobre
+la descomposicion del número u otra.
+*/
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 
 
-// función que resuelve el problema
-long long int resolver(long long int a, long long int b) {
+long long int resolverMultiplicacion(long long int a, long long int b) {
 
 	if (b == 0) return 0;
 	else if (b == 1) return a;
-	else if (b % 2 == 0)
-		return resolver(2 * a, b / 2);
-
-	else
-		return resolver(2*a, b/2) + a;
-	
+	else if (b % 2 == 0) return resolverMultiplicacion(2 * a, b / 2);
+	else return resolverMultiplicacion(2*a, b / 2) + a;
 }
 
-// Resuelve un caso de prueba, leyendo de la entrada la
-// configuración, y escribiendo la respuesta
+
 void resuelveCaso() {
 
-	long long int n1, n2;
-	std::cin >> n1 >> n2;
+	long long int op1, op2;
+	
+	long long int producto = resolverMultiplicacion(op1, op2);
 
-	long long int sol = resolver(n1, n2);
-
-	std::cout << sol << "\n";
+	std::cout << producto << astd::endl;
 }
 
+
 int main() {
-	// Para la entrada por fichero.
-	// Comentar para acepta el reto
+
 #ifndef DOMJUDGE
 	std::ifstream in("datos.txt");
-	auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+	auto cinbuf = std::cin.rdbuf(in.rdbuf());
 #endif 
-
 
 	int numCasos;
 	std::cin >> numCasos;
@@ -47,8 +46,7 @@ int main() {
 		resuelveCaso();
 
 
-	// Para restablecer entrada. Comentar para acepta el reto
-#ifndef DOMJUDGE // para dejar todo como estaba al principio
+#ifndef DOMJUDGE
 	std::cin.rdbuf(cinbuf);
 	system("PAUSE");
 #endif

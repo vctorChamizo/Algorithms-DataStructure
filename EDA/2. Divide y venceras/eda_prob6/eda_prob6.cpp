@@ -1,6 +1,17 @@
 ﻿// Nombre del alumno: Víctor Chamizo Rodríguez
 // Usuario del Juez: E12
 
+/*
+El problema se resuelve usando el esquema algoritmico Divide y Vencerás.
+
+Antes de llamar a la función que aplicará este esquema algorítmico se
+realizan unas comprobaciones basicas para descargar de argumentos dicha función.
+Las comprobaciones ralizadas son en las que el preso fugado debería estar en la primera
+o última posicion del vector.
+
+La función "buscarPreso" realiza llamadas recusrsivas a derecha o izquierda dependiendo de
+si el código de los presos de ese rango del vector son consecutivos o no.
+*/
 
 #include <iostream>
 #include <iomanip>
@@ -8,7 +19,6 @@
 #include <vector>
 
 
-// función que resuelve el problema
 char buscarPreso(std::vector<char> const& v, int ini, int fin) {
 
 	int m = (ini + fin) / 2;
@@ -21,8 +31,7 @@ char buscarPreso(std::vector<char> const& v, int ini, int fin) {
 	}
 }
 
-// Resuelve un caso de prueba, leyendo de la entrada la
-// configuración, y escribiendo la respuesta
+
 void resuelveCaso() {
 
 	char primerPreso, ultimoPreso;
@@ -43,7 +52,6 @@ void resuelveCaso() {
 	char fugado;
 
 	if (presos[0] != primerPreso) fugado = primerPreso;
-	//si falta el ultimo preso
 	else if (presos[presos.size() - 1] != ultimoPreso) fugado = ultimoPreso;
 	else {
 
@@ -57,7 +65,7 @@ int main() {
 	
 #ifndef DOMJUDGE
 	std::ifstream in("datos.txt");
-	auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+	auto cinbuf = std::cin.rdbuf(in.rdbuf());
 #endif 
 
 	int numCasos;
@@ -65,7 +73,7 @@ int main() {
 	for (int i = 0; i < numCasos; ++i)
 		resuelveCaso();
 
-#ifndef DOMJUDGE // para dejar todo como estaba al principio
+#ifndef DOMJUDGE
 	std::cin.rdbuf(cinbuf);
 	system("PAUSE");
 #endif

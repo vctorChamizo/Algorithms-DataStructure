@@ -1,6 +1,11 @@
 ﻿// Nombre del alumno Víctor Chamizo Rodríguez
 // Usuario del Juez E12
 
+/*
+El problema se resulve aplicando recursividad no final, de tal modo que por cada 
+llamada a la funcion se descompone el numero en una cifra menos guardando junto a el 
+la posición que le corresponde al invertirlo en forma de potencia de 10.
+*/
 
 #include <iostream>
 #include <iomanip>
@@ -13,60 +18,58 @@ struct tInverso {
 	int pot;
 };
 
-// función que resuelve el problema
+
 tInverso invertir(int n) {
 
-	tInverso invertido;
+	tInverso inv;
 
 	if (n / 10 == 0) {
 
-		invertido.numero = n;
-		invertido.pot = 10;
+		inv.numero = n;
+		inv.pot = 10;
 		
-		return invertido;
+		return inv;
 	}
 	else {
 
 		int aux = n % 10;
 
-		invertido = invertir(n / 10);
+		inv = invertir(n / 10);
 
-		invertido.numero = (aux * invertido.pot) + invertido.numero;
-		invertido.pot = invertido.pot * 10;
+		inv.numero = (aux * inv.pot) + inv.numero;
+		inv.pot = inv.pot * 10;
 
-		return invertido;
+		return inv;
 	}
 }
 
-// Resuelve un caso de prueba, leyendo de la entrada la
-// configuración, y escribiendo la respuesta
+
 bool resuelveCaso() {
 
-	int n;
+	int numero;
 
-	std::cin >> n;
+	std::cin >> numero;
 
 	if (!std::cin) return false;
 
-	tInverso sol = invertir(n);
+	tInverso invertido = invertir(numero);
 
-	std::cout << sol.numero << std::endl;
+	std::cout << invertido.numero << std::endl;
 
 	return true;
 }
 
+
 int main() {
-	// Para la entrada por fichero.
-	// Comentar para acepta el reto
+
 #ifndef DOMJUDGE
 	std::ifstream in("datos.txt");
-	auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+	auto cinbuf = std::cin.rdbuf(in.rdbuf());
 #endif 
 
 	while (resuelveCaso());
 
-	// Para restablecer entrada. Comentar para acepta el reto
-#ifndef DOMJUDGE // para dejar todo como estaba al principio
+#ifndef DOMJUDGE
 	std::cin.rdbuf(cinbuf);
 	system("PAUSE");
 #endif

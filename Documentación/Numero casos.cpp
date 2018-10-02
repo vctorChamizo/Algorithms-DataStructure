@@ -23,7 +23,7 @@ int main() {
 
     #ifndef DOMJUDGE
      std::ifstream in("datos.txt");
-     auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+     auto cinbuf = std::cin.rdbuf(in.rdbuf());
      #endif 
     
     int numCasos;
@@ -31,7 +31,7 @@ int main() {
     for (int i = 0; i < numCasos; ++i)
         resuelveCaso();
 	
-     #ifndef DOMJUDGE // para dejar todo como estaba al principio
+     #ifndef DOMJUDGE
      std::cin.rdbuf(cinbuf);
      system("PAUSE");
      #endif
