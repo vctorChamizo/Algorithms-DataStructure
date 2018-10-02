@@ -1,6 +1,14 @@
 ﻿// Nombre del alumno: Víctor Chamizo Rodríguez
 // Usuario del Juez: TAIS58
 
+/*
+El problema se resuelve mediante recursividad no final comprobadno cada
+subarbol del arbol principal, de tal manera que, si los dos hijos
+tienen la misma altura, el árbol sigue siendo binario y por el contrario no.
+
+De no ser binario el algoritmo sigue recorriendo todas las ramas del arbol, pero
+hay una alternativa que suple este problema.
+*/
 
 #include <iostream>
 #include <iomanip>
@@ -77,9 +85,9 @@ void resuelveCaso() {
 
 	arbol = leerArbol('.');
 	
-	bool sol = esBinario(arbol, altura);
+	bool binario = esBinario(arbol, altura);
 
-	if (sol) std::cout << "SI" << std::endl;
+	if (binario) std::cout << "SI" << std::endl;
 	else std::cout << "NO" << std::endl;
 }
 

@@ -8,8 +8,7 @@
 #include "PriorityQueue.h"
 
 
-// función que resuelve el problema
-long long int resolver(PriorityQueue<long long int>& monticulo) {
+long long int calcularEsfuerzo(PriorityQueue<long long int>& monticulo) {
 
 	long long int oper1, oper2, suma;
 	long long int esfuerzo = 0;
@@ -32,8 +31,7 @@ long long int resolver(PriorityQueue<long long int>& monticulo) {
 	return esfuerzo;
 }
 
-// Resuelve un caso de prueba, leyendo de la entrada la
-// configuración, y escribiendo la respuesta
+
 bool resuelveCaso() {
 
 	long long int nElem;
@@ -52,25 +50,24 @@ bool resuelveCaso() {
 		monticulo.push(elem);
 	}
 
-	long long int sol = resolver(monticulo);
+	long long int esfuerzo = calcularEsfuerzo(monticulo);
 
-	std::cout << sol << std::endl;
+	std::cout << esfuerzo << std::endl;
 
 	return true;
 }
 
+
 int main() {
-	// Para la entrada por fichero.
-	// Comentar para acepta el reto
+
 #ifndef DOMJUDGE
 	std::ifstream in("datos.txt");
-	auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+	auto cinbuf = std::cin.rdbuf(in.rdbuf());
 #endif 
 
 	while (resuelveCaso());
-
-	// Para restablecer entrada. Comentar para acepta el reto
-#ifndef DOMJUDGE // para dejar todo como estaba al principio
+	
+#ifndef DOMJUDGE
 	std::cin.rdbuf(cinbuf);
 	system("PAUSE");
 #endif

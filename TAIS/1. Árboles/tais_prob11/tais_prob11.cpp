@@ -1,5 +1,13 @@
 ﻿// Nombre del alumno: Víctor Chamizo Rodríguez
-// Usuario del Juez:
+// Usuario del Juez: TAIS58
+
+/*
+El problema se resuelve mediante recursividad no final comprobadno cada
+subarbol del arbol principal, de tal manera que, si los dos hijos
+tienen la misma altura, es decir, es binario y el hijo izquierdo es menor
+que el padre y el hijo derecho es mayor que el padre (estas dos condicones
+se deben cumplir para cualquier rama o nodo del arbol), el arbol es AVL.
+*/
 
 
 #include <iostream>
@@ -9,8 +17,7 @@
 #include "bintree_eda.h"
 
 
-// función que resuelve el problema
-bool resolver(const bintree<int>& arbol, int& altura, int& nodoMax, int& nodoMin) {
+bool esAvl(const bintree<int>& arbol, int& altura, int& nodoMax, int& nodoMin) {
 
 	int altL, altR;
 	int nodMaxL, nodMinL, nodMaxR, nodMinR;
@@ -25,7 +32,7 @@ bool resolver(const bintree<int>& arbol, int& altura, int& nodoMax, int& nodoMin
 	}
 	else if (arbol.left().empty()) {
 
-		bool avlDer = resolver(arbol.right(), altR, nodMaxR, nodMinR);
+		bool avlDer = esAvl(arbol.right(), altR, nodMaxR, nodMinR);
 
 		nodoMax = nodMinR;
 		nodoMin = arbol.root();
@@ -36,7 +43,7 @@ bool resolver(const bintree<int>& arbol, int& altura, int& nodoMax, int& nodoMin
 	}
 	else if (arbol.right().empty()) {
 
-		bool avlIzq = resolver(arbol.left(), altL, nodMaxL, nodMinL);
+		bool avlIzq = esAvl(arbol.left(), altL, nodMaxL, nodMinL);
 		
 		nodoMax = arbol.root();
 		nodoMin = nodMaxL;
@@ -47,8 +54,8 @@ bool resolver(const bintree<int>& arbol, int& altura, int& nodoMax, int& nodoMin
 	}
 	else {
 
-		bool avlIzq = resolver(arbol.left(), altL, nodMaxL, nodMinL);
-		bool avlDer = resolver(arbol.right(), altR, nodMaxR, nodMinR);
+		bool avlIzq = esAvl(arbol.left(), altL, nodMaxL, nodMinL);
+		bool avlDer = esAvl(arbol.right(), altR, nodMaxR, nodMinR);
 
 		if (avlIzq && avlDer && (abs(altL - altR) <= 1) && nodMaxL < arbol.root() && nodMinR > arbol.root()){
 
@@ -62,8 +69,7 @@ bool resolver(const bintree<int>& arbol, int& altura, int& nodoMax, int& nodoMin
 	}
 }
 
-// Resuelve un caso de prueba, leyendo de la entrada la
-// configuración, y escribiendo la respuesta
+
 void resuelveCaso() {
 
 	bintree<int> arbol;
@@ -71,18 +77,18 @@ void resuelveCaso() {
 
 	arbol = leerArbol(-1);
 
-	bool sol = resolver(arbol, altura, nodoMax, nodoMin);
+	bool avl = esAvl(arbol, altura, nodoMax, nodoMin);
 
-	if (sol) std::cout << "SI" << std::endl;
+	if (avl) std::cout << "SI" << std::endl;
 	else std::cout << "NO" << std::endl;
 }
 
+
 int main() {
-	// Para la entrada por fichero.
-	// Comentar para acepta el reto
+
 #ifndef DOMJUDGE
 	std::ifstream in("datos.txt");
-	auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+	auto cinbuf = std::cin.rdbuf(in.rdbuf());
 #endif 
 
 	int numCasos;
@@ -90,8 +96,7 @@ int main() {
 	for (int i = 0; i < numCasos; ++i)
 		resuelveCaso();
 
-	// Para restablecer entrada. Comentar para acepta el reto
-#ifndef DOMJUDGE // para dejar todo como estaba al principio
+#ifndef DOMJUDGE 
 	std::cin.rdbuf(cinbuf);
 	system("PAUSE");
 #endif
