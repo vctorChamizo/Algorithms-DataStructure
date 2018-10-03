@@ -56,6 +56,7 @@ bool resuelveCaso() {
 
 	/*
 	std::vector<int> vector(nElem);
+	
 
 	for (int i = 0; i < vector.size(); ++i)
 		std::cin >> vector[i];
