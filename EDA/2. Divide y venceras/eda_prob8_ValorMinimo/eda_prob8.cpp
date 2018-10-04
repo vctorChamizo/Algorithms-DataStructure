@@ -1,6 +1,18 @@
 ﻿// Nombre del alumno Víctor Chamizo Rodríguez
 // Usuario del Juez E12
 
+/*
+El problema es resuelto aplicando el esquema logaritmico Divide y Vencerás
+
+Debido a que los elementos del vector en un principio estan ordenador de forma descendente pero han
+sido modificados por rotaciones, para hayar el mínimo debemos encontrar diviendo el vector
+en dos mediante llamadas recursivas el elemento que cumpla que tanto su elementos siguiente como su 
+elemento anterior, sean mayores que el mismo.
+
+Para decantarnos por un lado u otro del vector cuando hacemos la división, seguimos la premisa de que si
+el elemento inicial de ese sector del vector es menor que el elemento central de dicho sector, el minimo
+debe estar en la parte izquierda del vector, debido a que en un principio están ordenados de forma descendente.
+*/
 
 #include <iostream>
 #include <iomanip>
