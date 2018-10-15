@@ -8,7 +8,7 @@
 #include <vector>
 
 
-int encontrarDistintos(std::vector<int> const& v, int ini, int fin, int& cont) {
+int encontrarDistintos(std::vector<int> const& v, int ini, int fin) {
 
 	if (ini == fin) return 1; //1 elemento en el array
 	else if (ini + 1 == fin) { //2 elementos en el array
@@ -20,8 +20,8 @@ int encontrarDistintos(std::vector<int> const& v, int ini, int fin, int& cont) {
 
 		int m = (ini + fin) / 2;
 
-		int contIz = encontrarDistintos(v, ini, m, cont);
-		int contDch = encontrarDistintos(v, m + 1, fin, cont);
+		int contIz = encontrarDistintos(v, ini, m);
+		int contDch = encontrarDistintos(v, m + 1, fin);
 
 		int contParcial = contIz + contDch;
 
@@ -46,8 +46,7 @@ bool resuelveCaso() {
 	for (int i = 0; i < vector.size(); ++i)
 		std::cin >> vector[i];
 
-	int cont = 0;
-	int nDistintos = encontrarDistintos(vector, 0, vector.size() - 1, cont);
+	int nDistintos = encontrarDistintos(vector, 0, vector.size() - 1);
 
 	std::cout << nDistintos << std::endl;
 
