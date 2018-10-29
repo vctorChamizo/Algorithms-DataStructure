@@ -14,8 +14,8 @@ public:
 	Ovejas(Imagen const & I) :  F(I.size()), C(I[0].size()), marcado(F, std::vector<bool>(C, false)), manchasBlancas(0) {
 
 		//Comparabamos cada uno de los elementos de la matriz.
-		for (int i = 0; i < F; ++i) {
-			for (int j = 0; j < C; ++j) {
+		for (int i = 0; i < F; ++i)
+			for (int j = 0; j < C; ++j)
 				//Encontramos una nueva mancha blanca que no está marcada.
 				if (I[i][j] == '.' && !marcado[i][j]) {
 
@@ -23,9 +23,6 @@ public:
 
 					dfs(I, i, j);
 				}
-			}
-				
-		}
 	}
 
 	int getOvejasBlancas() const { return manchasBlancas - 1; }
