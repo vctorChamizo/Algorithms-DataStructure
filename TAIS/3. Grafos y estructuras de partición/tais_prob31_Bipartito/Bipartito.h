@@ -1,3 +1,6 @@
+// Nombre del alumno: Víctor Chamizo Rodríguez
+// Usuario del Juez: TAIS58
+
 #include <vector>
 #include "Grafo.h"
 
@@ -11,7 +14,7 @@ class Bipartito {
 
 public:
 
-	Bipartito(Grafo const& G) : listaMarcado(G.V(), verticeMarcado), esBipartito(true) {
+	Bipartito(Grafo const & G) : listaMarcado(G.V(), verticeMarcado), esBipartito(true) {
 
 		int i = 0;
 
@@ -36,7 +39,7 @@ private:
 
 	bool esBipartito;
 
-	void dfs(Grafo const& G, int & vOrg) {
+	void dfs(Grafo const & G, int & vOrg) {
 
 		listaMarcado[vOrg].marcado = true;
 
