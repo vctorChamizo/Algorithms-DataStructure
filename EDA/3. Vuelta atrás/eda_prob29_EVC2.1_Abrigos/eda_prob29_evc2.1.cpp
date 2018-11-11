@@ -13,15 +13,10 @@ bool esSolucion(int max, int k) { return k == max; }
 
 bool esValida(std::vector<int> const & vSol, std::vector<int> const & vL, std::vector<int> const & vCA, 
 			  std::vector<int> const & vCont, int k, int abrigo) {
-
-	int maximo = 0;
-	for (auto i = 0; i < vCont.size(); ++i)
-		maximo = std::max(vCont[i], maximo);
 	
-	if (vCont[abrigo] == maximo && maximo > (2 + k / 3)) return false;
+	if (vCont[abrigo] > (2 + k / 3)) return false;
 	if (vCA[abrigo] < vL[k]) return false;
 	if (k > 0 && vSol[k] == vSol[k - 1]) return false;
-	if (k == (vL.size() - 1) && vSol[0] == vSol[vL.size() - 1]) return false;
 
 	return true;
 }
@@ -37,7 +32,7 @@ void resolver(std::vector<int> & vSol, std::vector<int> const & vL, std::vector<
 		if (esValida(vSol, vL, vCA, vCont, k, i)) {
 
 			if (!esSolucion(vL.size() - 1, k)) resolver(vSol, vL, vCA, vCont, k + 1, nSol);
-			else nSol++;
+			else if (vSol[0] != vSol[vL.size() - 1]) nSol++;
 		}
 
 		vCont[i]--;
