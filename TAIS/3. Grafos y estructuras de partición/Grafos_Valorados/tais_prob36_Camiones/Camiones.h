@@ -14,7 +14,7 @@ public:
 		dfs(G, vOrg, anchura);
 	}
 
-	bool esRuta(int vDest) { return marcado[vDest]; }
+	bool esRuta(int vDest) const { return marcado[vDest]; }
 
 private:
 

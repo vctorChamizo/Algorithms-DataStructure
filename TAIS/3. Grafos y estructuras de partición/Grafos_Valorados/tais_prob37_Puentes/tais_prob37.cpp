@@ -4,53 +4,43 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <vector>
 
 #include "GrafoValorado.h"
-#include "Camiones.h"
+#include "CostePuentes.h"
 
 
 bool resuelveCaso() {
 
 	//Inicializamos grafo Valorado
 
-	int V;
+	int V; //Numero de islas
 
 	std::cin >> V;
 
-	if (!std::cin)
-		return false;
+	if (!std::cin) return false;
 
 	GrafoValorado<int> grafo(V);
 
-	int E;
+	int E; //Numero de puentes que se pueden construir
 
 	std::cin >> E;
 
-	int v, w, valor;
+	int v, w, valor; //Islas que unen los puentes y coste de dicho puente
 
 	for (auto i = 0; i < E; ++i) {
 
 		std::cin >> v >> w >> valor;
+		
 		grafo.ponArista({ v - 1, w - 1, valor });
 	}
 
-	//Leemos datos de las rutas que tomará el camión
+	CostePuentes cPuentes(grafo);
 
-	int K, origen, destino, anchura;
+	if (cPuentes.hayPuentes()) std::cout << cPuentes.getCosteMinimo();
+	else std::cout << "No hay puentes suficentes";
 
-	std::cin >> K;
-
-	for (auto j = 0; j < K; ++j) {
-
-		std::cin >> origen >> destino >> anchura;
-
-		Camiones camiones(grafo, origen - 1, anchura);
-
-		if (camiones.esRuta(destino - 1)) std::cout << "SI";
-		else std::cout << "NO";
-
-		std::cout << std::endl;
-	}	
+	std::cout << std::endl;
 
 	return true;
 }
