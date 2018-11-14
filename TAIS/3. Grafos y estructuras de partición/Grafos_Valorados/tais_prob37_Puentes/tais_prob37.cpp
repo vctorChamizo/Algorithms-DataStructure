@@ -38,7 +38,7 @@ bool resuelveCaso() {
 	CostePuentes cPuentes(grafo);
 
 	if (cPuentes.hayPuentes()) std::cout << cPuentes.getCosteMinimo();
-	else std::cout << "No hay puentes suficentes";
+	else std::cout << "No hay puentes suficientes";
 
 	std::cout << std::endl;
 

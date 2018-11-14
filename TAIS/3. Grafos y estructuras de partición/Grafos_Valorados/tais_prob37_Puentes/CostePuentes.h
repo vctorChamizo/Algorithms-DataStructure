@@ -28,9 +28,9 @@ public:
 		int i = 0;
 
 		while (i < marcado.size() && puentes) {
-			
+
 			if (!marcado[i]) puentes = false;
-			i++;
+			++i;
 		}
 	}
 
