@@ -1,9 +1,9 @@
-﻿/*
+/*
 	Practica 1 - Dafny
 	Autores:
-		- Guillermo Cortina Fernández (E15)
-		- Irene Martín Berlanga (E35)
-		- Víctor Chamizo Rodríguez (E12)
+		- Guillermo Cortina Fernández.
+		- Irene Martín Berlanga.
+		- Víctor Chamizo Rodríguez
  */
 
 
@@ -67,7 +67,7 @@ method maximo (v : array<int>) returns (m : int)
 			invariant m in v[..i]
 			decreases v.Length - i
 			{
-				if (m < v[i]) {m := v[i];}
+				if (m < v[i]) { m := v[i]; }
 				i := i+1;
 			}
 	}

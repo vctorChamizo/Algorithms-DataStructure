@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Practica 2 - Dafny
 	Autores:
 		- Guillermo Cortina Fernández (E15)

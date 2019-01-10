@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Practica 3 - Dafny
 	Autores:
 		- Guillermo Cortina Fernández (E15)
@@ -7,10 +7,9 @@
  */
 
 
-
 // Intercambiar el valor de dos posiciones de un vector.
 // Escribe las precondiciones mas debiles de cada una de las instrucciones del codigo
-method swap (v:array<int>, i:int, j:int)
+method swap (v : array<int>, i : int, j : int)
 	requires v != null
 	requires 0 <= i < v.Length
 	requires 0 <= j < v.Length
@@ -19,13 +18,19 @@ method swap (v:array<int>, i:int, j:int)
 	modifies v
 	
 	{
-		{
-		assert v[j]==old(v[j]) && v[i]==old(v[i]);
+		
+		assert v[j] == old(v[j]) && v[i] == old(v[i]);
+		
 		v[i]:= v[i] - v[j];
-		assert v[j] = old(v[j]) && v[i] + v[j] == old(v[i]);
-		v[j]:= v[i]+v[j];
-		assert v[j] - v[i] = old(v[j]) && v[j] == old(v[i]);
-		v[i]:=v[j]-v[i];
+
+		assert v[j] == old(v[j]) && v[i] + v[j] == old(v[i]);
+		
+		v[j]:= v[i] + v[j];
+
+		assert v[j] - v[i] == old(v[j]) && v[j] == old(v[i]);
+		
+		v[i]:= v[j] - v[i];
+
 		assert v[i] == old(v[j]) && v[j] == old(v[i]);
 	}
 
@@ -76,7 +81,6 @@ method Fibonacci (n : int) returns (f : int)
 // coincide con el valor del ultimo elemento del vector original
 // Escribir el invariante para probar la correccion del bucle (invariant)
 // Dar una funcion cota del bucle (decreases) y comprobar que Dafny realiza la prueba con ella.
-
 function suma (s : seq<int>) : int
 	ensures s == [] ==> suma(s) == 0;
 	ensures s != [] ==> suma(s) == s[0] + suma(s[1..])
@@ -126,23 +130,21 @@ predicate espico(s:seq<int>,i:int)
 
 // funcion que cuenta el numero de picos de una secuencia
 function CountPicos(s:seq<int>,i:int):nat 
-	requires 0 <= i < |s| && |s| > 0
+	requires 0<=i<|s| && |s| > 0
 	ensures i == 0 ==> CountPicos(s,i) == 1
 	ensures i > 0 && espico(s,i) ==> CountPicos(s,i) == 1 + CountPicos(s,i - 1)
 	ensures i > 1 && !espico(s,i) ==> CountPicos(s,i) == CountPicos(s,i - 1)
 	
-{
+	{
   		if |s| == 1 then 1
   		else if |s| > 1 && espico(s,i) then 1 + CountPicos(s,i - 1)
-         	else CountPicos(s,i - 1)
-  
+        else CountPicos(s,i - 1)
 	}
-
 
 // metodo que cuenta el numero de picos de un vector
 method numPicos(v:array<int>) returns (n:int) 
-	requires v!=null && v.Length>0
-	ensures n==CountPicos(v[..],v.Length-1)
+	requires v != null && v.Length > 0
+	ensures n == CountPicos(v[..], v.Length - 1)
 	
 	{
 		var cont := 1
@@ -150,9 +152,9 @@ method numPicos(v:array<int>) returns (n:int)
 		var max := v[0]
 
 		while (i < v.Length)
-			invariant 1 <= i <= v.Length
+			invariant 1 <= i < v.Length
 			invariant 1 <= cont <= v.Length
-			invariant max in v
+			invariant max in v[..]
 			decreases v.Length - i
 			{
 				if (v[i] > max){
