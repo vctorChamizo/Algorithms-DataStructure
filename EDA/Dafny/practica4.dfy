@@ -17,8 +17,8 @@ method problema3 (a : array<int>, p : int) returns (b : bool)
 		var max := a[0];
 		var i := 1;
 
-		while (i < p) 
-			invariant 1 <= i <= p
+		while (i <= p) 
+			invariant 0 <= i <= p + 1
 			invariant forall k :: 0 <= k < i ==> max >= a[k]
 			invariant max in a[..]
 			decreases (p - i)
@@ -33,16 +33,16 @@ method problema3 (a : array<int>, p : int) returns (b : bool)
 
 		// Bucle para comprobar que el maximo de la parte izquierda es menor que 
 		// todos los valores de la derecha
-		var j := p;
+	
 
-		while (j < a.Length) 
-			invariant p < j < a.Length
-			invariant forall w :: p < w < a.Length ==> max < a[w]
-			decreases (a.Length - j)
+		while (i < a.Length && max < a[i]) 
+			invariant p < i <= a.Length
+			invariant forall w :: p < w < i ==> max < a[w]
+			decreases (a.Length - i)
 			{
-				j := j + 1;
+				i := i + 1;
 			}
-		
+		b := i == a.Length;
 		// Posibles instrucciones de finalizacion
 	}
 
@@ -76,16 +76,22 @@ method numMiradores(v : array<int>) returns (n : int)
 	
 	{
 		// Inicializar variables
-		var i := 0;
-		n := 0;
+		var i := v.Length-1; 
+		var i_max := v.Length - 1;
+		n := 1;
 		
-		while (i < v.Length)
-			invariant 0 <= i < v.Length
-			decreases (v.Length - i)
+		while (i > 0)
+			invariant 0 <= i <= v.Length && i <= i_max < v.Length
+			invariant forall k:: i <= k < v.Length ==> v[i_max] >= v[k]
+			invariant n == CountMiradores(v[..], i)
 			{
-				if (esMirador(v[i..], i)) { n := n + 1; }
-				i := i + 1;
-			}
+				if (v[i-1] >= v[i_max])
+				{ 
+					i_max := i -1;
+					n := n + 1;
+				}
+				i := i - 1;
+      }
 	}
 
 /*******************************************************************************************************/
@@ -99,19 +105,27 @@ method numMiradores(v : array<int>) returns (n : int)
 // vector modificado estan en el vector original
 method eliminar (v : array<int>, x : int) returns (tam : int)
 	requires v != null && v.Length > 0
-	ensures forall w :: 0 <= w < tam ==> v[w] != x
+	ensures 0 <= tam <= v.Length 
 	ensures forall k :: 0 <= k < tam ==> v[k] in old(v[..])
+	ensures !(x in v[..tam])
 	modifies v
 
 	{
 		var i := 0;
-		var aux := 0;
+		tam := 0;
 
 		while (i < v.Length) 
-			invariant 0 <= i < v.Length
-			decreases (v.Length - i)
+			invariant 0 <= i <= v.Length
+			invariant 0 <= tam <= i
+			invariant !(x in v[..tam])
+      		invariant forall k :: 0 <= k < tam ==> v[k] in old(v[..])
+			
 			{
-				if (v[i] != x) { v[aux] := v[i]; }
+				if (v[i] != x) 
+				{ 
+					v[tam] := v[i];
+					tam := tam + 1;
+				}
 				i := i + 1;
 			}
 	}
@@ -138,20 +152,31 @@ method Jacobsthal (n : int) returns (j : int)
 	
 	{
 		// Resolver los casos n == 0 y n == 1
-		if (n == 0 || n == 1) { j := n; }
 
-		// Inicializar las variables para el caso > 2
-	  	j := 1;
-    	var i := 1;
-    	var aux := 0;
-   
-	 	while (i < n)
-	 		invariant (1 <= i <= n) && (aux == Jacob(i-1)) && (j == Jacob(i))
-  			decreases (n - i)
+		if(n == 0){
+			j := 0;
+			return;
+		}
+		else if(n == 1){
+			j := 1;
+			return;
+		}
+
+		var num1 := 1;
+		var num2 := 0;
+		j := 1;
+		var i := 2;
+
+		while(i < n)
+			invariant 0 <= i <= n
+			invariant j == Jacob(i)
+			invariant num1 == Jacob(i - 1)
+			invariant num2 == Jacob(i - 2)
 			{
-				aux := j;
-				j := j + 2 * aux;
+				num2 := num1;
+				num1 := j;
+				j:= num1 + 2*num2;
 				i := i + 1;
-			} 
+			}
 	}
-
+		
