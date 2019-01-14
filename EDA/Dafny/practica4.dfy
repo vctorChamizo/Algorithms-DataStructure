@@ -1,6 +1,7 @@
 /*
 	Practica 4 - Dafny
 	Autores:
+		- Guillermo Cortina Fernández (E15)
 		- Irene Martín Berlanga (E35)
 		- Víctor Chamizo Rodríguez (E12)
  */

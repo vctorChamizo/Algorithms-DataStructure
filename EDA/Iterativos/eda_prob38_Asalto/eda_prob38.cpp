@@ -7,7 +7,7 @@
 #include <fstream>
 #include <vector>
 
-void Atraco(std::vector<int> const & v, int t, int & g, int & nv) {
+void atraco(std::vector<int> const & v, int t, int & g, int & nv) {
 
 	int aux_recorrido;
 	int aux_g;
@@ -39,7 +39,7 @@ void resuelveCaso() {
 
 	int ganancia, nVagon;
 
-	Atraco(vector, tiempo, ganancia, nVagon);
+	atraco(vector, tiempo, ganancia, nVagon);
 
 	std::cout << nVagon << " " << ganancia << std::endl;
 }

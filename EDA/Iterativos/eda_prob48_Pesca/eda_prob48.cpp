@@ -30,24 +30,19 @@ int pesca(std::vector< std::vector<int> > const & m, int c) {
 bool resuelveCaso() {
 
 	int nCuadrantes;
-
 	std::cin >> nCuadrantes;
 
 	if (!std::cin) return false;
 
 	int cuadrantePesca;
-
-	std::cin >> cuadrantePesca;
-
 	std::vector< std::vector<int> > matriz (nCuadrantes, std::vector<int>(nCuadrantes));
 
+	std::cin >> cuadrantePesca;
 	for (int i = 0; i < nCuadrantes; ++i)
 		for (int j = 0; j < nCuadrantes; ++j)
 			std::cin >> matriz[i][j];
 
-	int nPeces = pesca (matriz, cuadrantePesca);
-
-	std::cout << nPeces << std::endl;
+	std::cout << pesca (matriz, cuadrantePesca) << std::endl;
 
 	return true;
 }
