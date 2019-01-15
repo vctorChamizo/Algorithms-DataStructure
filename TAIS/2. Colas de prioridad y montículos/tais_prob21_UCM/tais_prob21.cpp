@@ -14,7 +14,7 @@ struct tUser {
 	int acumulado;
 	int tiempo;
 
-	bool operator < (tUser const& u) const{
+	bool operator < (tUser const & u) const{
 
 		return acumulado < u.acumulado || (acumulado == u.acumulado && id < u.id);
 	}
@@ -25,7 +25,6 @@ struct tUser {
 	return u1.acumulado < u2.acumulado || (u1.acumulado == u2.acumulado && u1.id < u2.id);
 }*/
 
-// función que resuelve el problema
 long int resolver(PriorityQueue<tUser>& monticulo) {
 
 	tUser aux = monticulo.top();
@@ -39,8 +38,6 @@ long int resolver(PriorityQueue<tUser>& monticulo) {
 	return aux.id;
 }
 
-// Resuelve un caso de prueba, leyendo de la entrada la
-// configuración, y escribiendo la respuesta
 bool resuelveCaso() {
 
 	int nUser;
@@ -62,17 +59,11 @@ bool resuelveCaso() {
 	}
 
 	long int k;
-	long int sol;
-
 	std::cin >> k;
 
-	for (int i = 0; i < k; ++i) {
-
-		 sol = resolver(monticulo);
-
-		 std::cout << sol << std::endl;
-	}
-
+	for (int i = 0; i < k; ++i) 
+		std::cout << resolver(monticulo) << std::endl;
+	
 	std::cout << "----" << std::endl;
 
 	return true;
