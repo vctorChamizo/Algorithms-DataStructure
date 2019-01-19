@@ -24,13 +24,11 @@ int minimoParches(std::vector<int> const & v, int l) {
 bool resuelveCaso() {
 
 	int agujeros;
-
 	std::cin >> agujeros;
 
 	if (!std::cin) return false;
 
 	int longitud;
-
 	std::cin >> longitud;
 
 	std::vector<int> manguera(agujeros);

@@ -23,7 +23,6 @@ int encontrarMinimaDiferencia(std::vector<int> const & a, std::vector<int> const
 bool resuelveCaso() {
 
 	int esquiadores;
-
 	std::cin >> esquiadores;
 
 	if (esquiadores == 0) return false;
