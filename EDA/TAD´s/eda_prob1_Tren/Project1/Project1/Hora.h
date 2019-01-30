@@ -6,6 +6,7 @@
 
 # include <iostream>
 # include <stdexcept>
+# include <iomanip>
 
 class Hora {
 
@@ -42,22 +43,9 @@ private:
 
 inline std::ostream & operator << (std::ostream & out, Hora const & h) {
 
-	int aux_h, aux_m, aux_s;
-
-	aux_h = h.getHoras();
-	aux_m = h.getMinutos();
-	aux_s = h.getSegundos();
-
-	if (aux_h < 10) out << '0';
-	out << aux_h << ':';
-
-	if (aux_m < 10) out << '0';
-	out << aux_m << ':';
-
-	if (aux_s < 10) out << '0';
-	out << aux_s;
-
-	return out;
+	return out << std::setfill('0') << std::setw(2) << h.getHoras() << ':'
+			   << std::setfill('0') << std::setw(2) << h.getMinutos() << ':'
+			   << std::setfill('0') << std::setw(2) << h.getSegundos();
 }
 
 inline std::istream & operator >> (std::istream & in, Hora & hora) {

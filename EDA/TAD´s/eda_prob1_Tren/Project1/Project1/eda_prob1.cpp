@@ -9,21 +9,23 @@
 
 #include "Hora.h"
 
-void cogerSiguiente(std::vector<Hora> const & hT, Hora const & hC, bool & eP, Hora & hS) {
+Hora cogerSiguiente(std::vector<Hora> const & hT, int ini, int fin, Hora const & hC) {
 
-	int i = 0;
+	if (ini == fin) return hT[ini];
+	else if (ini + 1 == fin) {
 
-	while (i < hT.size() && !eP) {
-
-		if (hC < hT[i] || hC == hT[i]) {
-
-			eP = true;
-			hS = hT[i];
-		}
-		
-		i++;
+		if (hC < hT[ini]) return hT[ini];
+		else return hT[fin];
 	}
-}
+	else {
+
+		int m = (ini + fin) / 2;
+
+		if (hC == hT[m]) return hT[m];
+		else if (hC < hT[m]) return cogerSiguiente(hT, ini, m, hC);
+		else return cogerSiguiente(hT, m + 1, fin, hC);
+	}
+}// cogerSiguiente
 
 bool resuelveCaso() {
 
@@ -39,19 +41,16 @@ bool resuelveCaso() {
 
 	for (int i = 0; i < H; ++i) {
 
-		bool esPosible = false;
 		Hora horaSalida;
 
 		try {
 
 			std::cin >> horaConsulta;
-			cogerSiguiente(horariosTrenes, horaConsulta, esPosible, horaSalida);
 
-			if (esPosible) std::cout << horaSalida;
+			if (horaConsulta < horariosTrenes[horariosTrenes.size() - 1]) std::cout << cogerSiguiente(horariosTrenes, 0, T - 1, horaConsulta);
 			else std::cout << "NO";
-
-			std::cout << std::endl;
 			
+			std::cout << std::endl;
 		}
 		catch (std::invalid_argument & ia) { std::cout << ia.what() << std::endl; }
 	}
