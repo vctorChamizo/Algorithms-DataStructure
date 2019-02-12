@@ -1,43 +1,38 @@
-
 // Nombre del alumno: Víctor Chamizo Rodríguez
-// Usuario del Juez: TAIS58
+// Usuario del Juez: E12
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include "Grafo.h"
-#include "Bipartito.h"
 
+#include "Polinomio.h"
 
 bool resuelveCaso() {
 
-	int V;
+	int C, E;
+	std::cin >> C >> E;
 
-	std::cin >> V;
+	if (!std::cin) return false;
 
-	if (!std::cin)
-		return false;
+	Polinomio P;
+	
+	while (C != 0 || E != 0) {
 
-	int E;
-
-	std::cin >> E;
-
-	Grafo grafo(V);
-
-	int v, w;
-
-	for (int i = 0; i < E; ++i) {
-
-		std::cin >> v >> w;
-
-		grafo.ponArista(v, w);
+		P.insert(C, E);
+		std::cin >> C >> E;
 	}
 
-	Bipartito bp(grafo);
+	int N, valor;
+	std::cin >> N >> valor;
 
-	if (bp.getBipartito()) std::cout << "SI";
-	else std::cout << "NO";
-	
+	std::cout << P.evaluate(valor);
+
+	for (int i = 1; i < N; ++i) {
+
+		std::cin >> valor;
+		std::cout << ' ' << P.evaluate(valor);
+	}
+
 	std::cout << std::endl;
 
 	return true;

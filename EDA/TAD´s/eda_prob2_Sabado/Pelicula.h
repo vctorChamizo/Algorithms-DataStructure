@@ -17,7 +17,7 @@ public:
 
 	Pelicula() {}
 
-	Pelicula(Hora h_i, Hora d, std::string t) : h_inicio(h_i), duracion(d), titulo(t) { h_fin = h_inicio + duracion; }
+	Pelicula(Hora h_i, Hora d, std::string t) : h_inicio(h_i), duracion(d), titulo(t), h_fin(h_i + d) {}
 
 	Hora getHoraInicio() const { return h_inicio; }
 	Hora getHoraFin() const { return h_fin; }
@@ -30,7 +30,7 @@ public:
 
 private:
 
-	Hora h_inicio, h_fin, duracion;
+	Hora h_inicio, duracion, h_fin;
 	std::string titulo;
 };
 

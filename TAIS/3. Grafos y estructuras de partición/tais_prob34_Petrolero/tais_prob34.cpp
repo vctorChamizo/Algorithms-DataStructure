@@ -15,8 +15,7 @@ bool resuelveCaso() {
 
 	std::cin >> F;
 
-	if (!std::cin)
-		return false;
+	if (!std::cin) return false;
 
 	int C;
 
