@@ -28,8 +28,7 @@ int main() {
     
     int numCasos;
     std::cin >> numCasos;
-    for (int i = 0; i < numCasos; ++i)
-        resuelveCaso();
+    for (int i = 0; i < numCasos; ++i) resuelveCaso();
 	
      #ifndef DOMJUDGE
      std::cin.rdbuf(cinbuf);
