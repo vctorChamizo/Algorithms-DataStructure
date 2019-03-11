@@ -42,11 +42,11 @@ bool esBinario(const bintree<char>& arbol, int& altura) {
 		else return false;
 	}
 }
-/*Alternativa de solucion:
-	Controla el desiquilibrio del arbol saliendo de la función,
-	evitando el recorrido completo del árbol.
-*/
-/*bool esBinario(const bintree<char>& arbol, int& altura) {
+
+/*
+Alternativa de solucion: Controla el desiquilibrio del arbol saliendo de la función, evitando el recorrido completo del árbol.
+
+bool esBinario(const bintree<char>& arbol, int& altura) {
 
 	if (arbol.empty()) {
 		
@@ -76,7 +76,6 @@ bool esBinario(const bintree<char>& arbol, int& altura) {
 		else return false;
 	}
 }*/
-
 
 void resuelveCaso() {
 	
