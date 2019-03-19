@@ -35,7 +35,7 @@ void queue_inverted<T>::invierte() {
 		nodo_anterior = nodo_actual;
 		nodo_actual = nodo_siguiente;
 	}
-}//duplica
+}
 
 template <class T>
 void queue_inverted<T>::print(std::ostream & o) const {
@@ -50,6 +50,6 @@ void queue_inverted<T>::print(std::ostream & o) const {
 
 	o << actual -> elem;
 	
-}//print
+}
 
 #endif
