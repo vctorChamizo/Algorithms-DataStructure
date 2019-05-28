@@ -23,7 +23,7 @@ void queue_ext<T>::inverted_pair() {
 
 	Nodo * current_node = this->prim;
 	Nodo * previous_node = nullptr;
-	Nodo * next_node = nullptr;;
+	Nodo * next_node = nullptr;
 
 	int i = 0;
 	if (this->size() > 1) {
