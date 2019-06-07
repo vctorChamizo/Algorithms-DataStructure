@@ -1,72 +1,98 @@
 // Nombre del alumno: Víctor Chamizo Rodríguez
 // Usuario del Juez: TAIS58
 
+/*
+	EXPLICACIÓN:
+		
+		Para solucionar el problema se ha utilizado una cola de prioridad en la que los instrumentos están ordenados
+		de maoyor a menor según el numero de instrumentos por partituras de cada grupo.
+		
+		De esta forma en la primera iteración se reparte una partitura a cada grupo de tal forma que ninguno de ellos
+		se quede sin partitura. A partir de ese momento, se da una partitura nueva al grupo que encabece el top de la cola,
+		ya que es el grupo que mas instrumentos por partituras tiene. Una vez actualizado sus datos, vuelve a ser insertado
+		en la cola, donde es colocado en el lugar que le corresponde según el criterio anteriormente descrito.
+		
+		El proceso se repite hasta que es repartido el numero total de partituras disponibles.
+	
+	COSTES:
+	
+		- El coste de hacer top() es -> O(1)
+		- El coste de hacer push() y pop() es -> O(log(n)) siendo n el numero de elementos de la cola.
+	
+	COSTE TOTAL:
+	
+		O(m * log(n)) -> siendo m el numero de partituras y n el numero de grupos.
+*/
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
 #include "PriorityQueue.h"
 
-struct tOrquesta {
+struct tInstrument {
 
-	int nPartitura  = 1;
-	int nInstrumentos;
+	int n_instruments;
+	int n_sheets = 1;
 
-	bool operator < (tOrquesta const & o) const {
+	tInstrument() {}
 
-		int actual = nInstrumentos / nPartitura;
-		if (nInstrumentos % nPartitura != 0) actual++;
+	tInstrument(int i) : n_instruments(i) {}
+	
+	bool operator < (tInstrument const & i) const {
 
-		int entrante = o.nInstrumentos / o.nPartitura;
-		if (o.nInstrumentos % o.nPartitura != 0) entrante++;
+		int op = n_instruments / n_sheets;
+		if (n_instruments % n_sheets != 0) op++;
 
-		return actual > entrante;
+		int op_in = i.n_instruments / i.n_sheets;
+		if (i.n_instruments % i.n_sheets != 0) op_in++;
+
+		return op > op_in;
 	}
 };
 
-int repartirPartituras(PriorityQueue<tOrquesta> & q, int p) {
+int get_max(PriorityQueue<tInstrument> & q, int p) {
 
-	tOrquesta orquesta;
+	tInstrument instrumnet;
 
-	for (int i = 0; i < p; ++i) {
+	for (int j = 0; j < p; ++j) {
 
-		orquesta = q.top();
+		instrumnet = q.top();
 		q.pop();
 
-		orquesta.nPartitura++;
-		q.push(orquesta);
+		instrumnet.n_sheets++;
+
+		q.push(instrumnet);
 	}
 
-	int grupoMayor = q.top().nInstrumentos / q.top().nPartitura;
-	if (q.top().nInstrumentos % q.top().nPartitura != 0) grupoMayor++;
+	int max = q.top().n_instruments / q.top().n_sheets;
+	if (q.top().n_instruments % q.top().n_sheets != 0) max++;
 
-	return grupoMayor;
+	return max;
 }
 
 bool resuelveCaso() {
 
-	int partituras, n;
-	std::cin >> partituras >> n;
+	int p;
+	std::cin >> p;
 
 	if (!std::cin) return false;
 
-	PriorityQueue<tOrquesta> q;
-	tOrquesta orquesta;
+	int n, i;
+	PriorityQueue<tInstrument> queue;
+	std::cin >> n;
 
-	for (int i = 0; i < n; ++i) {
+	for (int k = 0; k < n; ++k) {
 
-		std::cin >> orquesta.nInstrumentos;
-		q.push(orquesta);
+		std::cin >> i;
+
+		queue.push({ i });
 	}
-	
-	/*
-		Restamos el numero de intrumentos distintos al numero total de partituras porque sabemos que
-		como minimo cada grupo tendrá una partitura.
-	*/
-	partituras -= n;
 
-	// Si todavia hay partituras para repartir...
-	if (partituras > 0) std::cout << repartirPartituras(q, partituras);
-	else std::cout << q.top().nInstrumentos;
+	p -= n;
+
+	if (p > 0) std::cout << get_max(queue, p);
+	else std::cout << queue.top().n_instruments;
 
 	std::cout << std::endl;
 

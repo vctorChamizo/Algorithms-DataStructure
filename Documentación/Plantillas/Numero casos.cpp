@@ -6,16 +6,7 @@
 #include <iomanip>
 #include <fstream>
 
-
-TipoSolucion resolver(TipoDatos datos) {
-    
-    
-}
-
-
 void resuelveCaso() {
-
-    TipoSolucion sol = resolver(datos);
 
 }
 

@@ -1,45 +1,63 @@
-ï»¿// Nombre del alumno VÃ­ctor Chamizo RodrÃ­guez
-// Usuario del Juez TAIS58
+// Nombre del alumno: Víctor Chamizo Rodríguez
+// Usuario del Juez: TAIS58
 
-
+/*
+	EXPLICACIÓN:
+		
+		Para solucionar el problema se ha utilizado una cola de prioridad en la que se ordenan las tareas de menor 
+		a mayor segun su momento de comienzo.
+		
+		De esta forma, por cada nueva iteracion se comprueba que la tarea que está en el top de la cola
+		no sea coincidente con al siguiente. Si la tarea es periodica se actualiza su momento de comienzo 
+		y de fin y es de nuevo insertada en la cola, ocupando la posicion que le corrsponda según su comienzo.
+	
+	COSTES:
+	
+		- El coste de hacer top() es -> O(1)
+		- El coste de hacer push() y pop() es -> O(log(n)) siendo n el numero de elementos de la cola.
+	
+	COSTE TOTAL:
+	
+		O(n * log(n)) -> siendo n el numero de tareas.
+*/
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
 #include "PriorityQueue.h"
 
-struct tTarea {
+struct tTask {
 
-	int comienzo;
-	int fin;
-	int periocidad = 0;
+	int begin;
+	int end;
+	int period = 0;
 
-	bool operator < (tTarea const& t) const { return comienzo < t.comienzo; }
+	tTask() {}
+
+	tTask(int b, int e) : begin(b), end(e) {};
+
+	tTask(int b, int e, int p) : begin(b), end(e), period(p) {};
+
+	bool operator < (tTask const & t) const { return begin < t.begin; }
 };
 
-bool encontrarConflicto (PriorityQueue<tTarea> & t, int min) {
+bool check_conflicts(PriorityQueue<tTask> & q, int t) {
 
-	tTarea tarea = t.top();
-	t.pop();
-	
-	while (t.size() > 0 && tarea.comienzo < min) {
+	while (!q.empty() && q.top().begin < t) {
 
-		tTarea tareaSiguiente = t.top();
+		tTask task = q.top();
+		q.pop();
 
-		// Si los tiempo de comienzo y final de tareas consecutivas se solapan --> hay conflicto
-		if (tareaSiguiente.comienzo < min && tarea.fin > tareaSiguiente.comienzo) return true;
-		else {
+		if (!q.empty() && q.top().begin < t && task.end > q.top().begin) return true;
 
-			if (tarea.periocidad > 0) { // Si la tarea es periodica, modificamos sus tiempos de cominezo y fin
+		// Si es una tarea periodica -> se actualiza la tarea
+		if (task.period > 0) { 
 
-				tarea.comienzo += tarea.periocidad;
-				tarea.fin += tarea.periocidad;
+			task.begin += task.period;
+			task.end += task.period;
 
-				t.push(tarea);
-			}
+			q.push(task);
 		}
-
-		tarea = t.top();
-		t.pop();
 	}
 
 	return false;
@@ -47,38 +65,32 @@ bool encontrarConflicto (PriorityQueue<tTarea> & t, int min) {
 
 bool resuelveCaso() {
 
-	int nUnicas;
-	std::cin >> nUnicas;
+	int n;
+	std::cin >> n;
 
 	if (!std::cin) return false;
 
-	int nPeriodicas, minutos;
-	std::cin >> nPeriodicas >> minutos;
+	int m, t;
+	std::cin >> m >> t;
 
-	tTarea tarea;
-	PriorityQueue<tTarea> tareas;
+	PriorityQueue<tTask> queue;
+	int b, e, p;
 
-	if (nUnicas != 0) {
+	for (int i = 0; i < n; ++i) {
 
-		//leemos tareas unicas
-		for (int i = 0; i < nUnicas; ++i) {
+		std::cin >> b >> e;
 
-			std::cin >> tarea.comienzo >> tarea.fin;
-			tareas.push(tarea);
-		}
+		queue.push({ b, e });
 	}
 
-	if (nPeriodicas != 0) {
+	for (int j = 0; j < m; ++j) {
 
-		//leemos tareas periodicas
-		for (int i = 0; i < nPeriodicas; ++i) {
+		std::cin >> b >> e >> p;
 
-			std::cin >> tarea.comienzo >> tarea.fin >> tarea.periocidad;
-			tareas.push(tarea);
-		}
+		queue.push({ b, e, p });
 	}
 
-	if (encontrarConflicto(tareas, minutos)) std::cout << "SI";
+	if (check_conflicts(queue, t)) std::cout << "SI";
 	else std::cout << "NO";
 
 	std::cout << std::endl;

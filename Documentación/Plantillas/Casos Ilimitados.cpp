@@ -5,19 +5,9 @@
 #include <iomanip>
 #include <fstream>
 
-
-TipoSolucion resolver(TipoDatos datos) {
-    
-    
-}
-
-
 bool resuelveCaso() {
     
-    if (! std::cin)
-        return false;
-    
-    TipoSolucion sol = resolver(datos);
+    if (!std::cin) return false;
    
     return true;   
 }

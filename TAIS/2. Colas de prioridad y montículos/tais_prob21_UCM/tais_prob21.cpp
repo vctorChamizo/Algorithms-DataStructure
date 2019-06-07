@@ -1,86 +1,94 @@
-ï»¿// Nombre del alumno: VÃ­ctor Chamizo RodrÃ­guez 
+// Nombre del alumno: Víctor Chamizo Rodríguez 
 // Usuario del Juez: TAIS58
 
+/*
+	EXPLICACIÓN:
+	
+		Para resolver el problema se ha usado una cola de prioridad en la que se ordenan los usuarios entrantes 
+		de menor a mayor según el momento en el que se le tenga que enviar el siguiente mensajes. 
+		
+		De esta forma, por cada envio, el siguiente usuario es sacado de la cola, mostrado y actualizado 
+		su proximo tiempo de envio; una vex realizado esto, es de nuevo insertado en la cola.
+	
+	
+	COSTES:
+	
+		- El coste de realizar top() es -> O(1)
+		- EL coste de realizar push() y pop() es -> O(log(n)) siendo n el numero de elementos de la cola.
+	
+	COSTE TOTAL: 
+	
+		O(m * log(n)) -> siendo m el numero de envios a realizar y n el numero de elementos en la cola.
+*/
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include "PriorityQueue.h"
 
+#include "PriorityQueue.h"
 
 struct tUser {
 
-	long int id;
-	int acumulado;
-	int tiempo;
+	int id;
+	int period;
+	int next;
 
-	bool operator < (tUser const & u) const{
+	tUser() {}
 
-		return acumulado < u.acumulado || (acumulado == u.acumulado && id < u.id);
-	}
+	tUser(int _id, int _period) : id(_id), period(_period), next(_period) {}
+
+	bool operator < (tUser const & u) const { return next < u.next || (next == u.next && id < u.id); }
 };
 
-/*bool operator < (tUser const& u1, tUser const& u2) {
+int show_next(PriorityQueue<tUser> & q) {
 
-	return u1.acumulado < u2.acumulado || (u1.acumulado == u2.acumulado && u1.id < u2.id);
-}*/
+	tUser user = q.top();
+	q.pop();
 
-long int resolver(PriorityQueue<tUser>& monticulo) {
+	user.next += user.period;
 
-	tUser aux = monticulo.top();
+	q.push(user);
 
-	monticulo.pop();
-
-	aux.acumulado += aux.tiempo;
-
-	monticulo.push(aux);
-
-	return aux.id;
+	return user.id;
 }
 
 bool resuelveCaso() {
 
-	int nUser;
+	int n;
+	std::cin >> n;
 
-	std::cin >> nUser;
+	if (n == 0) return false;
 
-	if (nUser == 0) return false;
+	PriorityQueue<tUser> queue;
+	int _id, _period;
 
-	PriorityQueue<tUser> monticulo;
-	tUser user_aux;
+	for (int i = 0; i < n; ++i) {
 
-	for (int i = 0; i < nUser; ++i) {
+		std::cin >> _id >> _period;
 
-		std::cin >> user_aux.id;
-		std::cin >> user_aux.tiempo;
-		user_aux.acumulado = user_aux.tiempo;
-
-		monticulo.push(user_aux);
+		queue.push({ _id, _period });
 	}
 
-	long int k;
+	int k;
 	std::cin >> k;
 
-	for (int i = 0; i < k; ++i) 
-		std::cout << resolver(monticulo) << std::endl;
-	
+	for (int j = 0; j < k; ++j) std::cout << show_next(queue) << std::endl;
+
 	std::cout << "----" << std::endl;
 
 	return true;
 }
 
 int main() {
-	// Para la entrada por fichero.
-	// Comentar para acepta el reto
+
 #ifndef DOMJUDGE
 	std::ifstream in("datos.txt");
-	auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+	auto cinbuf = std::cin.rdbuf(in.rdbuf());
 #endif 
 
 	while (resuelveCaso());
 
-	// Para restablecer entrada. Comentar para acepta el reto
-#ifndef DOMJUDGE // para dejar todo como estaba al principio
+#ifndef DOMJUDGE
 	std::cin.rdbuf(cinbuf);
 	system("PAUSE");
 #endif

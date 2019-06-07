@@ -1,25 +1,14 @@
 // Nombre del alumno: Víctor Chamizo Rodríguez 
 // Usuario del Juez:
 
-
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 
-
-TipoSolucion resolver(TipoDatos datos) {
-    
-    
-}
-
-
 bool resuelveCaso() {
     
-    if (caso especial)
-        return false;
-    
-    TipoSolucion sol = resolver(datos);
-    
+    if () return false;
+
     return true;
 }
 

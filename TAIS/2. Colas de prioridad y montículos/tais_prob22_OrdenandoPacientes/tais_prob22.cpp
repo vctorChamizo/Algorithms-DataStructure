@@ -1,72 +1,84 @@
-Ôªø// Nombre del alumno: V√≠ctor Chamizo Rodr√≠guez 
+// Nombre del alumno: VÌctor Chamizo RodrÌguez 
 // Usuario del Juez: TAIS58
 
+/*
+	EXPLICACI”N:
+		
+		Para solucionar el problema se ha utilizado una cola de prioridad en la que los pacientes est·n ordenados
+		de mayor a menor seg˙n su grado de dolencia.
+		
+		Por tanto, cuando un paciente debe ser atendido, se muestra el siguiente, que es el que se encuentra en la 
+		top de la cola. En el caso de ingresar un nuevo paciente, este es inicializado con sus datos e insertado en 
+		el lugar que le corresponda seg˙n su grado de dolencia.
+	
+	COSTES:
+	
+		- El coste de hacer top() es -> O(1)
+		- El coste de hacer push() y pop() es -> O(log(n)) siendo n el numero de elementos de la cola.
+	
+	COSTE TOTAL:
+	
+		O(m * log(n)) -> siendo m el numero de eventos y n el numero de elementos de la cola.
+*/
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
 #include <string>
+
 #include "PriorityQueue.h"
 
+struct tPacient {
 
-struct tPaciente {
+	std::string name;
+	int pain;
+	int order;
 
-	std::string nombre;
-	long int gravedad;
-	int orden;
+	tPacient() {}
 
-	bool operator < (tPaciente const& p) const {
+	tPacient(std::string n, int p, int o) : name(n), pain(p), order(o) {}
 
-		return gravedad > p.gravedad || (gravedad == p.gravedad && orden < p.orden);
-	}
+	bool operator < (tPacient const & p) const { return pain > p.pain || (pain == p.pain && order < p.order); }
 };
 
+std::string next_pacient(PriorityQueue<tPacient> & q) {
 
-// funcioÃÅn que resuelve el problema
-std::string resolver(PriorityQueue<tPaciente>& monticulo) {
+	std::string pacient = q.top().name;
+	q.pop();
 
-	tPaciente paciente_aux = monticulo.top();
-	monticulo.pop();
-
-	return paciente_aux.nombre;
+	return pacient;
 }
 
-// Resuelve un caso de prueba, leyendo de la entrada la
-// configuracioÃÅn, y escribiendo la respuesta
 bool resuelveCaso() {
 
-	long int nEventos;
+	int n;
+	std::cin >> n;
 
-	std::cin >> nEventos;
+	if (n == 0) return false;
 
-	if (nEventos == 0)
-		return false;
+	char e;
+	std::string name;
+	int pain, n_pacient = 0;
+	PriorityQueue<tPacient> queue;
 
-	tPaciente paciente;
-	PriorityQueue<tPaciente> colaPacientes;
+	for (int i = 0; i < n; ++i) {
 
-	char evento;
-	int ordenLLegada = 0;
+		std::cin >> e;
 
-	for (int i = 0; i < nEventos; ++i) {
+		if (e == 'I') {
 
-		std::cin >> evento;
+			std::cin >> name >> pain;
 
-		if (evento == 'I') {
+			n_pacient++;
 
-			std::cin >> paciente.nombre;
-			std::cin >> paciente.gravedad;
-
-			paciente.orden = ordenLLegada;
-			ordenLLegada++;
-
-			colaPacientes.push(paciente);
+			queue.push({ name, pain, n_pacient });
 		}
 		else {
 
-			std::string nombrePaciente = resolver(colaPacientes);
+			std::cout << next_pacient(queue) << std::endl;
 
-			std::cout << nombrePaciente << std::endl;
+			n_pacient--;
 		}
 	}
 
@@ -76,17 +88,15 @@ bool resuelveCaso() {
 }
 
 int main() {
-	// Para la entrada por fichero.
-	// Comentar para acepta el reto
+
 #ifndef DOMJUDGE
 	std::ifstream in("datos.txt");
-	auto cinbuf = std::cin.rdbuf(in.rdbuf()); //save old buf and redirect std::cin to casos.txt
+	auto cinbuf = std::cin.rdbuf(in.rdbuf());
 #endif 
 
 	while (resuelveCaso());
 
-	// Para restablecer entrada. Comentar para acepta el reto
-#ifndef DOMJUDGE // para dejar todo como estaba al principio
+#ifndef DOMJUDGE
 	std::cin.rdbuf(cinbuf);
 	system("PAUSE");
 #endif
