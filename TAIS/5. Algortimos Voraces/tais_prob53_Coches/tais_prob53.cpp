@@ -1,48 +1,56 @@
 // Nombre del alumno: Víctor Chamizo Rodríguez
 // Usuario del Juez: TAIS58
 
+/*
+	EXPLICACIÓN:
+
+		Para resolver este problema se ha utlizado una estrategia voraz que consiste en ordenar los
+		voltajes de las pilas de menor a mayor de tal manera que que se sumen el voltaje mas pequeño con
+		el mas grande para maximizar así el numero de coches con pilas que lleguen al minimo del voltaje.
+
+	COSTE:
+
+		O(n) -> siendo n el numero de pilas
+*/
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
 #include <vector>
 #include <algorithm>
 
+int max_cars(std::vector<int> const & p, int v) {
 
-int maximoCoches(std::vector<int> const & v, int vMin) {
+	int cars = 0;
+	int i = 0, j = p.size() - 1;
 
-	int nCoches = 0, ini = 0, fin = v.size() - 1;
+	while (i < j) {
 
-	while (ini < fin) {
+		if (p[i] + p[j] >= v) {
 
-		if (v[ini] + v[fin] >= vMin) {
-			nCoches++;
-			ini++;
+			j--;
+			cars++;
 		}
 
-		fin--;
+		i++;
 	}
 
-	return nCoches;
+	return cars;
 }
-
 
 void resuelveCaso() {
 
-	int pilas, voltajeMinimo;
+	int n, v;
+	std::cin >> n >> v;
 
-	std::cin >> pilas >> voltajeMinimo;
+	std::vector<int> p(n);
 
-	std::vector<int> voltajes(pilas);
+	for (auto & e : p) std::cin >> e;
 
-	for (auto i = 0; i < pilas; ++i)
-		std::cin >> voltajes[i];
+	std::sort(p.begin(), p.end());
 
-	std::sort(voltajes.begin(), voltajes.end(), std::greater<int>());
-
-	int maximo = maximoCoches(voltajes, voltajeMinimo);
-
-	std::cout << maximo << std::endl;
+	std::cout << max_cars(p, v) << std::endl;
 }
 
 int main() {
@@ -54,8 +62,7 @@ int main() {
 
 	int numCasos;
 	std::cin >> numCasos;
-	for (int i = 0; i < numCasos; ++i)
-		resuelveCaso();
+	for (int i = 0; i < numCasos; ++i) resuelveCaso();
 
 #ifndef DOMJUDGE
 	std::cin.rdbuf(cinbuf);

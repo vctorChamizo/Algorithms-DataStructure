@@ -1,47 +1,53 @@
 // Nombre del alumno: Víctor Chamizo Rodríguez 
-// Usuario del Juez: TAS58
+// Usuario del Juez: TAIS58
 
+/*
+	EXPLICACIÓN:
+		
+		Para solucionar este problema se ha usado una estrategia voraz, en la que se ordenan las alturas de los
+		esquiadores y las longitudes de los esquis de menor a maoyor en sus respectivos vectores, para así
+		sumar las diferencias entre los que estén en las mismas posiciones, ya que serán las minimas al estar ordenados
+		de mayor a menor.
+
+
+	COSTE TOTAL:
+
+		O(n) -> siendo n el numero de elementos de los vectores (es el mismo en ambos).
+*/
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
 #include <vector>
 #include <algorithm>
 
+int calculate_min_sub(std::vector<int> const & v_skrs, std::vector<int> const & v_sks, int n) {
 
-int encontrarMinimaDiferencia(std::vector<int> const & a, std::vector<int> const & l) {
+	int sum_sub = 0;
 
-	int sum = 0;
+	for (int i = 0; i < n; ++i) sum_sub += std::abs(v_skrs[i] - v_sks[i]);
 
-	for (int i = 0; i < a.size(); ++i)
-		sum += abs(a[i] - l[i]);
-
-	return sum;
+	return sum_sub;
 }
-
 
 bool resuelveCaso() {
 
-	int esquiadores;
-	std::cin >> esquiadores;
+	int n;
+	std::cin >> n;
 
-	if (esquiadores == 0) return false;
+	if (n == 0) return false;
 
-	std::vector<int> alturas(esquiadores);
-	std::vector<int> longitudes(esquiadores);
+	std::vector<int> v_skiers(n);
+	std::vector<int> v_skies(n);
 
-	for (int i = 0; i < esquiadores; ++i)
-		std::cin >> alturas[i];
+	for (auto & k : v_skiers) std::cin >> k;
+	for (auto & e : v_skies) std::cin >> e;
 
-	for (int j = 0; j < esquiadores; ++j)
-		std::cin >> longitudes[j];
+	std::sort(v_skiers.begin(), v_skiers.end());
+	std::sort(v_skies.begin(), v_skies.end());
 
-	std::sort(alturas.begin(), alturas.end());
-	std::sort(longitudes.begin(), longitudes.end());
-
-	int minimaDiferencia = encontrarMinimaDiferencia(alturas, longitudes);
-
-	std::cout << minimaDiferencia << std::endl;
+	std::cout << calculate_min_sub(v_skiers, v_skies, n) << std::endl;
 
 	return true;
 }

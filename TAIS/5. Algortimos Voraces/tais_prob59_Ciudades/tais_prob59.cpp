@@ -1,56 +1,59 @@
 // Nombre del alumno: Víctor Chamizo Rodríguez
-// Usuario del Juez:
+// Usuario del Juez: TAIIS58
 
+/*
+	EXPLICACIÓN:
+
+		Para resolver el problema se ha utilizado una estrategia voraz que consiste en ordenar de mayor
+		a menor ambos vectores. De esta forma e iterando con sobre los enemiegos sabremos el numero de victorias
+		que obtendrán los aliados comprando con su número de efectivos.
+
+	COSTE TOTAL:
+
+		O(n) -> siendo n el número de ciudades.
+*/
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
 #include <vector>
 #include <algorithm>
 
+int max_victories(std::vector<int> const & v_a, std::vector<int> const & v_e) {
 
-int maximoVictorias(std::vector<int> const & c, std::vector<int> const & e) {
+	int victories = 0;
+	int i = 0;
 
-	int i = 0, j = 0, nVictorias = 0;
+	for (auto const & e : v_e) {
 
-	while (i < c.size() && j < e.size()) {
+		if (e <= v_a[i]) {
 
-		if (c[i] <= e[j]) {
-
-			nVictorias++;
+			victories++;
 			i++;
 		}
-
-		j++;
 	}
 
-	return nVictorias;
+	return victories;
 }
-
 
 bool resuelveCaso() {
 
 	int n;
-
 	std::cin >> n;
 
 	if (!std::cin) return false;
 
-	std::vector<int> enemigosCiudades(n);
-	std::vector<int> efectivosEquipos(n);
+	std::vector<int> v_enemies(n);
+	std::vector<int> v_allies(n);
+	
+	for (auto & e : v_enemies) std::cin >> e;
+	for (auto & a : v_allies) std::cin >> a;
+	
+	std::sort(v_enemies.begin(), v_enemies.end(), std::greater<int>());
+	std::sort(v_allies.begin(), v_allies.end(), std::greater<int>());
 
-	for (auto i = 0; i < n; ++i)
-		std::cin >> enemigosCiudades[i];
-
-	for (auto j = 0; j < n; ++j)
-		std::cin >> efectivosEquipos[j];
-
-	std::sort(enemigosCiudades.begin(), enemigosCiudades.end());
-	std::sort(efectivosEquipos.begin(), efectivosEquipos.end());
-
-	int maximo = maximoVictorias(enemigosCiudades, efectivosEquipos);
-
-	std::cout << maximo << std::endl;
+	std::cout << max_victories(v_allies, v_enemies) << std::endl;
 
 	return true;
 }

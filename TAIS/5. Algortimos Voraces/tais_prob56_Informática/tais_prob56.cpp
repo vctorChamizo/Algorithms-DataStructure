@@ -1,66 +1,91 @@
 // Nombre del alumno: Víctor Chamizo Rodríguez 
-// Usuario del Juez:
+// Usuario del Juez: TAIS58
 
+/*
+
+	EXPLICACIÓN:
+
+		Para resolver este problema se ha utilzado una cola de prioridad y una estrategia voraz que consiste
+		en ordenar de menor a mayor las actividades segun su tiempo de finalización, de tal forma que se maximice
+		el tiempo del que disponen los usuarios para asistir a las actividades.
+
+		La cola de prioridad se usa para almacenar los tiempos de finalización de las actividades de los compañeros
+		que están asistiendo a una de ellas, por tanto, en cada iteración se comprueba que si el tiempo de finalización
+		del usuario que mas pronto acabará de ver su actividad es menor que dicha finalización, se necesitará como minimo
+		otro compañero.
+
+
+	COSTES:
+		
+		- Coste de top() -> O(1)
+		- Coste de push() y pop() -> O(log(n)) siendo n el número de compañeros que hay asistiendo actividades.
+
+
+	COSTE TOTAL:
+		
+		O(n * log(m)) -> siendo n el número de actividades y n el número de compañeros asistiendo a las actividades.
+		
+*/
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
 #include <vector>
 #include <algorithm>
 
 #include "PriorityQueue.h"
 
+struct tActivity {
 
-struct tActividad {
+	int begin;
+	int end;
 
-	int comienzo;
-	int fin;
+	tActivity() {}
 
-	bool operator < (tActividad const & a) const { return comienzo < a.comienzo || (comienzo == a.comienzo && fin < a.fin); }
+	tActivity(int b, int e) : begin(b), end(e) {}
+
+	bool operator < (tActivity const & a) { return begin < a.begin; }
 };
 
-int minimoCompaneros(std::vector<tActividad> const & a, PriorityQueue<int> & fC) {
+int min_partner(std::vector<tActivity> const & v) {
 
-	int nCompaneros = 0;
-	fC.push(a[0].fin);
+	int partners = 0;
+	PriorityQueue<int> order_end;
 
-	for (auto i = 1; i < a.size(); ++i) {
+	order_end.push(v[0].end);
 
-		int fin_aux = fC.top();
+	for (int i = 1; i < v.size(); ++i) {
 
-		if (a[i].comienzo < fin_aux) { //Si el que antes acaba su actividad no llega al inicio de la siguiente --> +1 companero
-
-			nCompaneros++;
-			fC.push(a[i].fin);
-		}
-		else { //Si el que antes acaba, llega al incio de la siguiente actvidad --> actualizamos su final
-
-			fin_aux = a[i].fin;
-			fC.pop();
-			fC.push(fin_aux);
-		}
+		if (v[i].begin < order_end.top()) partners++;
+		else order_end.pop();
+		
+		order_end.push(v[i].end);
 	}
 
-	return nCompaneros;
+	return partners;
 }
 
 bool resuelveCaso() {
 
-	int nActividades;
-	std::cin >> nActividades;
+	int n;
+	std::cin >> n;
 
-	if (nActividades == 0) return false;
+	if (n == 0) return false;
 
-	std::vector<tActividad> actividades(nActividades);
+	std::vector<tActivity> v(n);
+	int b, e;
 
-	for (auto i = 0; i < nActividades; ++i)
-		std::cin >> actividades[i].comienzo >> actividades[i].fin;
+	for (int i = 0; i < n; ++i) {
 
-	std::sort(actividades.begin(), actividades.end());
+		std::cin >> b >> e;
 
-	PriorityQueue<int> finalCompanero;
+		v[i] = { b, e };
+	}
 
-	std::cout << minimoCompaneros(actividades, finalCompanero) << std::endl;
+	std::sort(v.begin(), v.end());
+
+	std::cout << min_partner(v) << std::endl;
 
 	return true;
 }

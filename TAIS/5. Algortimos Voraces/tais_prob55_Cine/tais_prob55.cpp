@@ -1,71 +1,82 @@
-// Nombre del alumno: Víctor Chamizo Rodríguez
+// Nombre del alumno: Víctor Chamizo Rodríguez 
 // Usuario del Juez: TAIS58
+
+/*
+	EXPLICACIÓN:
+
+		Para resolver este problema se ha usado una estrategia voraz en la que se han ordenado
+		de menor a mayor las peliculas emitidas segun se momento de finalización, ya que así, se
+		duspone del tiempo maximo para visualizar las peliculas.
+
+		De esta forma, si la pelicual actual tiene un comienzo superior al fin de la ultima pelicula vista
+		el numero de peliculas vistas aumenta en uno y se actualiza el fin de la ultima pelicula vista.
+
+	COSTE TOTAL:
+
+		O(n) -> siendo n el numerod de peliculas emitidas.
+*/
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
 #include <vector>
 #include <algorithm>
 
+struct tMovie {
 
-struct tPelicula {
+	int begin;
+	int end;
 
-	int comienzo;
-	int fin;
+	tMovie() {}
 
-	bool operator < (tPelicula & p) const { return fin < p.fin; }
+	tMovie(int b, int e) : begin(b), end(e) {}
+
+	bool operator < (tMovie const & m) const { return end < m.end; }
 };
 
+int max_movies(std::vector<tMovie> const & v) {
 
-int maximoPeliculas(std::vector<tPelicula> const & p) {
+	int movies = 1;
+	int aux_end = v[0].end + 10;
 
-	int nP = 1;
+	for (int i = 1; i < v.size(); ++i) {
 
-	int fin_aux = p[0].fin + 10;
+		if (v[i].begin >= aux_end) {
 
-	for (auto i = 1; i < p.size(); ++i) {
+			movies++;
 
-		if (p[i].comienzo >= fin_aux) {
-
-			nP++;
-			fin_aux = p[i].fin + 10;
+			aux_end = v[i].end + 10;
 		}
 	}
 
-	return nP;
+	return movies;
 }
-
 
 bool resuelveCaso() {
 
-	int nPeliculas;
+	int n;
+	std::cin >> n;
 
-	std::cin >> nPeliculas;
+	if (n == 0) return false;
 
-	if (nPeliculas == 0) return false;
+	std::vector<tMovie> v(n);
+	int h, m, d;
+	char p;
 
-	char puntos;
-	int horas, minutos, duracion;
-	tPelicula pelicula;
-	std::vector<tPelicula> peliculas(nPeliculas);
+	for (int i = 0; i < n; ++i) {
 
-	for (auto i = 0; i < nPeliculas; ++i) {
+		std::cin >> h >> p >> m >> d;
 
-		std::cin >> horas >> puntos >> minutos >> duracion;
-		pelicula.comienzo = (horas * 60) + minutos;
-		pelicula.fin = pelicula.comienzo + duracion;
-		peliculas[i] = pelicula;
+		v[i] = { (h * 60) + m, (h * 60) + m + d };
 	}
 
-	std::sort(peliculas.begin(), peliculas.end());
-		
-	int maximo = maximoPeliculas(peliculas);
+	std::sort(v.begin(), v.end());
 
-	std::cout << maximo << std::endl;
+	std::cout << max_movies(v) << std::endl;
 
 	return true;
 }
-
 
 int main() {
 

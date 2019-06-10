@@ -1,48 +1,57 @@
 // Nombre del alumno: Víctor Chamizo Rodríguez 
-// Usuario del Juez: TAS58
+// Usuario del Juez: TAIS58
 
+/*
+	EXPLICACIÓN:
 
+		Este problema se resuelve aplicando una estrategia voraz en la que los patidos jugados por 
+		los rivales son ordenador de menor a mayor mientras que los partidos jugados por los Broncos
+		son ordenados de mayor a menor de tal forma que se maximice la diferencia de los partidos ganados por
+		los broncos, ya que en caso de no tener una diferencia mayor a cero, esta no se sumaria.
+
+	COSTE TOTAL:
+
+		O(n) -> siendo n el numero de partidos jugados
+*/
+ 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
 #include <vector>
 #include <algorithm>
 
+int calculate_max_sub(std::vector<int> const & v_b, std::vector<int> const & v_r, int n) {
 
-int exitoMaximo(std::vector<int> const & pR, std::vector<int> const & pE) {
+	int max_sub = 0, sub_aux;
 
-	int maxP = 0;
+	for (int i = 0; i < n; ++i) {
 
-	for (auto i = 0; i < pR.size(); ++i)
-		if (pE[i] > pR[i]) maxP += pE[i] - pR[i];
+		sub_aux = v_b[i] - v_r[i];
 
-	return maxP;
+		if (sub_aux > 0) max_sub += sub_aux;
+	}
+
+	return max_sub;
 }
-
 
 bool resuelveCaso() {
 
-	int partidos;
+	int n;
+	std::cin >> n;
 
-	std::cin >> partidos;
+	if (n == 0) return false;
 
-	if (partidos == 0) return false;
+	std::vector<int> v_rivals(n);
+	std::vector<int> v_broncos(n);
+	
+	for (auto & r : v_rivals) std::cin >> r;
+	for (auto & b : v_broncos) std::cin >> b;
+	
+	std::sort(v_rivals.begin(), v_rivals.end());
+	std::sort(v_broncos.begin(), v_broncos.end(), std::greater<int>());
 
-	std::vector<int> puntosRivales(partidos);
-	std::vector<int> puntosEquipo(partidos);
-
-	for (auto i = 0; i < partidos; ++i)
-		std::cin >> puntosRivales[i];
-
-	for (auto j = 0; j < partidos; ++j)
-		std::cin >> puntosEquipo[j];
-
-	std::sort(puntosRivales.begin(), puntosRivales.end());
-	std::sort(puntosEquipo.begin(), puntosEquipo.end(), std::greater<int>());
-
-	int maximo = exitoMaximo(puntosRivales, puntosEquipo);
-
-	std::cout << maximo << std::endl;
+	std::cout << calculate_max_sub(v_broncos, v_rivals, n) << std::endl;
 
 	return true;
 }

@@ -1,57 +1,81 @@
 // Nombre del alumno: Víctor Chamizo Rodríguez 
 // Usuario del Juez: TAIS58
 
+/* 
+	EXPLICACIÓN:
+
+		Este problema se ha resuleto aplicando un estrategia voraz en la que los edificios han sido 
+		ordenados de menor a mayor segun la posicion final en la que acaban los edificios.
+
+		De esta forma, si un edificio tiene un inicio mayor que el final del último edificio en el que se colocó
+		un tunel, es necesario un tunel nuevo y se actualiza el final que marca la referencia.
+
+	COSTE TOTAL:
+	
+		O(n) -> siendo n el número de edificios.
+*/
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
 #include <vector>
 #include <algorithm>
 
-struct tEdificio {
+struct tBuild {
 
-	int ini;
-	int fin;
+	int begin;
+	int end;
 
-	bool operator < (tEdificio const & e) const { return fin < e.fin || (fin == e.fin && ini < e.ini); }
+	tBuild() {}
+
+	tBuild(int b, int e) : begin(b), end(e) {}
+
+	bool operator < (tBuild const & b) const { return end < b.end || (end == b.end && begin < b.begin); }
 };
 
-int minimoPasadizos(std::vector<tEdificio> const & v) {
+int min_tunnel(std::vector<tBuild> const & v) {
 
-	int nTunel = 1;
-	int finalTunel = v[0].fin;
+	int n_tunnels = 1;
+	int aux_end = v[0].end;
 
 	for (int i = 1; i < v.size(); ++i) {
 
-		if (v[i].ini >= finalTunel) {
+		if (v[i].begin >= aux_end) {
 
-			finalTunel = v[i].fin;
-			nTunel++;
+			n_tunnels++;
+
+			aux_end = v[i].end;
 		}
 	}
 
-	return nTunel;
+	return n_tunnels;
 }
 
 bool resuelveCaso() {
 
-	int nEdificios;
-	std::cin >> nEdificios;
+	int n;
+	std::cin >> n;
 
-	if (nEdificios == 0) return false;
+	if (n == 0) return false;
 
-	std::vector<tEdificio> edificios(nEdificios);
+	std::vector<tBuild> v(n);
 
-	for (auto i = 0; i < nEdificios; ++i)
-		std::cin >> edificios[i].ini >> edificios[i].fin;
+	int ini, fin;
 
-	std::sort(edificios.begin(), edificios.end());
+	for (int i = 0; i < n; ++i) {
 
-	std::cout << minimoPasadizos(edificios) << std::endl;
+		std::cin >> ini >> fin;
+
+		v[i] = { ini, fin };
+	}
+
+	std::sort(v.begin(), v.end());
+	
+	std::cout << min_tunnel(v) << std::endl;
 
 	return true;
 }
-
 
 int main() {
 
