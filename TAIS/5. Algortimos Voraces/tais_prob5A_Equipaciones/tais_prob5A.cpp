@@ -9,6 +9,8 @@
 
 
 	COSTE TOTAL :
+	
+		O(n) -> siendo n el número de elementos de los vectores.
 */
 
 #include <iostream>
