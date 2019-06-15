@@ -8,9 +8,15 @@
 		a menor ambos vectores. De esta forma e iterando con sobre los enemiegos sabremos el numero de victorias
 		que obtendrán los aliados comprando con su número de efectivos.
 
-	COSTE TOTAL:
+	
+	COSTES:
+	
+		- Coste de ordenar el vector -> O(log(n)) siendo n el numero de elementos del vector.
 
-		O(n) -> siendo n el número de ciudades.
+
+	COSTE TOTAL:
+	
+		O(n * log(n)) -> siendo n el número de ciudades.
 */
 
 #include <iostream>

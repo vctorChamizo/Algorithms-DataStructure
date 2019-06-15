@@ -10,9 +10,15 @@
 		De esta forma, si un edificio tiene un inicio mayor que el final del último edificio en el que se colocó
 		un tunel, es necesario un tunel nuevo y se actualiza el final que marca la referencia.
 
+
+	COSTES:
+	
+		- Coste de ordenar el vector -> O(log(n)) siendo n el numero de elementos del vector.
+
+
 	COSTE TOTAL:
 	
-		O(n) -> siendo n el número de edificios.
+		O(n * log(n)) -> siendo n el número de edificios.
 */
 
 #include <iostream>

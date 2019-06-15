@@ -9,9 +9,14 @@
 		son ordenados de mayor a menor de tal forma que se maximice la diferencia de los partidos ganados por
 		los broncos, ya que en caso de no tener una diferencia mayor a cero, esta no se sumaria.
 
-	COSTE TOTAL:
+	COSTES:
+	
+		- Coste de ordenar el vector -> O(log(n)) siendo n el numero de elementos del vector.
 
-		O(n) -> siendo n el numero de partidos jugados
+
+	COSTE TOTAL:
+	
+		O(n * log(n)) -> siendo n el número de partidos jugados.
 */
  
 #include <iostream>

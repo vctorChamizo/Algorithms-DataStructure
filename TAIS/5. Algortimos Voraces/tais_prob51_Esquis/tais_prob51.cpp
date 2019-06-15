@@ -10,9 +10,14 @@
 		de mayor a menor.
 
 
-	COSTE TOTAL:
+	COSTES:
+	
+		- Coste de ordenar el vector -> O(log(n)) siendo n el numero de elementos del vector.
 
-		O(n) -> siendo n el numero de elementos de los vectores (es el mismo en ambos).
+
+	COSTE TOTAL:
+	
+		O(n * log(n)) -> siendo n el número de esquiadores.
 */
 
 #include <iostream>

@@ -6,11 +6,15 @@
 	
 		Para solucionar este problema se ha usado una estrategia voraz que consiste en ordenar ambos vectores
 		de menor a mayor para ir comparando entre ellos e ir iterando según es necesario en cada uno de ellos.
-
-
-	COSTE TOTAL :
+		
+	COSTES:
 	
-		O(n) -> siendo n el número de elementos de los vectores.
+		- Coste de ordenar el vector -> O(log(n)) siendo n el numero de elementos del vector.
+
+
+	COSTE TOTAL:
+	
+		O(n * log(n)) -> siendo n el número de elementos de los vectores.
 */
 
 #include <iostream>

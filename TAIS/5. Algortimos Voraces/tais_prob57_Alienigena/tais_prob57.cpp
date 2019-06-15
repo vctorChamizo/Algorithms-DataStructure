@@ -10,9 +10,14 @@
 		** Comentarios en el código **
 	
 	
+	COSTES:
+	
+		- Coste de ordenar el vector -> O(log(n)) siendo n el numero de elementos del vector.
+
+
 	COSTE TOTAL:
 	
-		O(n) -> siendo n el numero de trabajos.
+		O(n * log(n)) -> siendo n el número de trabajos.
 */
 
 #include <iostream>

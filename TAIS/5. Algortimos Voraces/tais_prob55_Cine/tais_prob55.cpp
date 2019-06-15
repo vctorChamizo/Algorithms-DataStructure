@@ -11,9 +11,15 @@
 		De esta forma, si la pelicual actual tiene un comienzo superior al fin de la ultima pelicula vista
 		el numero de peliculas vistas aumenta en uno y se actualiza el fin de la ultima pelicula vista.
 
-	COSTE TOTAL:
+	
+	COSTES:
+	
+		- Coste de ordenar el vector -> O(log(n)) siendo n el numero de elementos del vector.
 
-		O(n) -> siendo n el numerod de peliculas emitidas.
+
+	COSTE TOTAL:
+	
+		O(n * log(n)) -> siendo n el número de peliculas emitidas.
 */
 
 #include <iostream>

@@ -10,9 +10,15 @@
 		el viaje solo lo podrá realziar el usuario con el peso maoyor, ya que al ser sumado con el peso mas
 		pequeño es imposible que pueda realizar el viaje con otro usuario.
 
-	COSTE TOTAL:
+	
+	COSTES:
+	
+		- Coste de ordenar el vector -> O(log(n)) siendo n el numero de elementos del vector.
 
-		O(n) -> siendo n el número de usuario que quieren realizar el viaje en el telesilla.
+
+	COSTE TOTAL:
+	
+		O(n * log(n)) ->siendo n el número de usuario que quieren realizar el viaje en el telesilla.
 */
 
 #include <iostream>

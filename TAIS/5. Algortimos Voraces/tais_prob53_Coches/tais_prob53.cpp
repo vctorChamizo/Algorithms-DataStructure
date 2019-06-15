@@ -8,9 +8,14 @@
 		voltajes de las pilas de menor a mayor de tal manera que que se sumen el voltaje mas pequeño con
 		el mas grande para maximizar así el numero de coches con pilas que lleguen al minimo del voltaje.
 
-	COSTE:
+	COSTES:
+	
+		- Coste de ordenar el vector -> O(log(n)) siendo n el numero de elementos del vector.
 
-		O(n) -> siendo n el numero de pilas
+
+	COSTE TOTAL:
+	
+		O(n * log(n)) -> siendo n el número de pilas.
 */
 
 #include <iostream>
