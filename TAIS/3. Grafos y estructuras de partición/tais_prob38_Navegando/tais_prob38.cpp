@@ -1,44 +1,55 @@
 // Nombre del alumno: Víctor Chamizo Rodríguez
 // Usuario del Juez: TAIS58
 
+/*
+	EXPLICACION:
+
+		Para resolver este problema se ha usado el algorirmo de Dijkstra (camino minimo) que nos permite
+		calcular el coste desde el la pagina de incio (1) hasta la pagina de destino (V). Cuando se encuentra el 
+		cammino minimo hasta el vertice en cuestion hay que almacenar tambien el tiempo de carga dado.
+
+
+	COSTE TOTAL:
+
+		O(V + E) -> siendo V el numero de vertices del grfao y E el numero de aristas.
+*/
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
 #include <vector>
 
 #include "GrafoDirigidoValorado.h"
-#include "Enlaces.h"
-
+#include "network.h"
 
 bool resuelveCaso() {
 
-	//Inicializamos grafo Dirigido Valorado
-
-	int V; //Pagina que queremos visitar 1 < V <= 10000
+	int V;
 	std::cin >> V;
 
 	if (V == 0) return false;
 
-	std::vector<int> vectorTiempoCarga(V);
-		
-	for (int & v : vectorTiempoCarga) std::cin >> v;
+	std::vector<int> v_charge(V);
 
-	int E; //Numero de enlaces
+	for (auto & v_c : v_charge) std::cin >> v_c;
+
+	int E;
 	std::cin >> E;
 
-	GrafoDirigidoValorado<int> grafo(V);
-
-	int v, w, valor; //Caracteristicas de enlaces
+	GrafoDirigidoValorado<int> G(V);
+	int e1, e2, v;
 
 	for (int i = 0; i < E; ++i) {
 
-		std::cin >> v >> w >> valor;
-		grafo.ponArista({ v - 1, w - 1, valor });
+		std::cin >> e1 >> e2 >> v;
+
+		G.ponArista({ e1 - 1, e2 - 1, v });
 	}
 
-	Enlaces enlaces(grafo, vectorTiempoCarga);
+	network net(G, v_charge);
 
-	if (enlaces.hayCamino()) std::cout << enlaces.getTiempoMinimo(V);
+	if (net.is_possible()) std::cout << net.min_path(V - 1);
 	else std::cout << "IMPOSIBLE";
 
 	std::cout << std::endl;

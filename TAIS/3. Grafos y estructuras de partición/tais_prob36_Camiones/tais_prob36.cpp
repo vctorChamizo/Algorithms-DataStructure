@@ -1,56 +1,69 @@
 // Nombre del alumno: Víctor Chamizo Rodríguez
 // Usuario del Juez: TAIS58
 
+/*
+	EXPLICACION:
+		
+		Para resolver este problema se ha realizado una busqueda en profundidad en la que se parte desde el 
+		punto de origen al resto de vertices con la restricción de que si son mas estrechos que la anchura
+		del camión, en el vector de marcados aparece como no visitado, es decir, que no se puede acceder el.
+
+
+	COSTES:
+
+		- Para resolver el problema, en el peor de los casos deben recorrerse todos los vertices del grafo 
+		  con sus respectivas aristas.
+
+
+	COSTE TOTAL:
+
+		O(V + E) -> siendo V el numero de vertices y E el numero de aristas del grafo.
+*/
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 
 #include "GrafoValorado.h"
-#include "Camiones.h"
-
+#include "trucks.h"
 
 bool resuelveCaso() {
 
-	//Inicializamos grafo Valorado
-
 	int V;
-
 	std::cin >> V;
 
-	if (!std::cin)
-		return false;
-
-	GrafoValorado<int> grafo(V);
+	if (!std::cin) return false;
 
 	int E;
-
 	std::cin >> E;
 
-	int v, w, valor;
+	int e1, e2, v;
+	GrafoValorado<int> G(V);
 
-	for (auto i = 0; i < E; ++i) {
+	for (int i = 0; i < E; ++i) {
 
-		std::cin >> v >> w >> valor;
-		grafo.ponArista({ v - 1, w - 1, valor });
+		std::cin >> e1 >> e2 >> v;
+
+		G.ponArista({ e1 - 1, e2 - 1, v });
 	}
 
-	//Leemos datos de las rutas que tomará el camión
-
-	int K, origen, destino, anchura;
-
+	int K;
 	std::cin >> K;
 
-	for (auto j = 0; j < K; ++j) {
+	int o, d, w;
+	
 
-		std::cin >> origen >> destino >> anchura;
+	for (int i = 0; i < K; ++i) {
 
-		Camiones camiones(grafo, origen - 1, anchura);
+		std::cin >> o >> d >> w;
 
-		if (camiones.esRuta(destino - 1)) std::cout << "SI";
+		trucks t(G, o - 1, w);
+
+		if (t.is_possible(d - 1)) std::cout << "SI";
 		else std::cout << "NO";
 
 		std::cout << std::endl;
-	}	
+	}
 
 	return true;
 }

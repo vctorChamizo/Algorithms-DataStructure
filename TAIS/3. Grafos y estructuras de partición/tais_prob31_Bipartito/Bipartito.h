@@ -1,60 +1,57 @@
-// Nombre del alumno: VÃ­ctor Chamizo RodrÃ­guez
+// Nombre del alumno: Víctor Chamizo Rodríguez
 // Usuario del Juez: TAIS58
 
+#ifndef BIPARTITO_H
+#define BIPARTITO_H
+
+#include <iostream>
+#include <iomanip>
+#include <stdexcept>
+
 #include <vector>
+
 #include "Grafo.h"
 
-struct tMarcado {
+/*
+	if (!color) color = BLUE;
 
-	bool marcado = false;
+	if (color) color = RED;
+*/
+struct tMarked {
+
+	bool marked = false;
 	bool color = false;
 };
 
-class Bipartito {
+class bipartito {
+
+	bool _bipartito;
+	std::vector<tMarked> marked;
 
 public:
 
-	Bipartito(Grafo const & G) : listaMarcado(G.V(), verticeMarcado), esBipartito(true) {
+	bipartito(Grafo const & G) : _bipartito(true), marked(G.V()) {
 
-		int i = 0;
-
-		while (esBipartito && i < G.V()) {
-
-			dfs(G, i);
-			i++;
-		}
+		for (auto i = 0; i < G.V(); ++i) 
+			if (!marked[i].marked) 
+				dfs(G, i, marked[i].color);
 	}
 
-
-	bool getBipartito() const {
-		return esBipartito;
-	}
-
+	bool is_bipartito() const { return _bipartito; }
 
 private:
 
-	tMarcado verticeMarcado; //Array de booleanos que indica si ya hemos estado en el vertice.
+	void dfs(Grafo const & G, int v_org, bool previous_color) {
 
-	std::vector<tMarcado> listaMarcado;
+		marked[v_org].marked = true;
+		marked[v_org].color = !previous_color;
 
-	bool esBipartito;
+		for (auto ady : G.ady(v_org)) {
 
-	void dfs(Grafo const & G, int & vOrg) {
-
-		listaMarcado[vOrg].marcado = true;
-
-		for (int vAdy : G.ady(vOrg)) {
-
-			if (!listaMarcado[vAdy].marcado) {
-
-				listaMarcado[vAdy].color = !listaMarcado[vOrg].color;
-				dfs(G, vAdy);
-			}
-			else if (listaMarcado[vAdy].color == listaMarcado[vOrg].color) {
-
-				esBipartito = false;
-				return;
-			}
+			if (marked[ady].marked && marked[v_org].color == marked[ady].color) _bipartito = false;
+			else if (!marked[ady].marked) dfs(G, ady, marked[v_org].color);
 		}
 	}
 };
+
+#endif

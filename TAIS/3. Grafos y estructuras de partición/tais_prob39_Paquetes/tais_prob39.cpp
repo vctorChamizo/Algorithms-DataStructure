@@ -1,83 +1,81 @@
 // Nombre del alumno: Víctor Chamizo Rodríguez
 // Usuario del Juez: TAIS58
 
+/*
+	EXPLICACION:
+
+		El problema se resuelve aplicando el algoritmo de Dijkstra (camino minimo) en el que se calcula el el menor
+		coste desde el punto de origen a los vertices en los cuales hay que realizar los repartos. El problema pide el 
+		minimo coste del camino de retorno desde el vertices de reparto al vertices de salida original, por lo tanto se 
+		vuelve a aplicar el algoritmo con el grafo inverso.
+
+
+	COSTES:
+
+		En el peor de los casos deberemos recorrer todos los vertices del grafo con sus respectivas aristas.
+
+
+	COSTE TOTAL:
+
+		O(V + E) -> siendo V el numero de vertices del grafo y E el numero de aristas.
+*/
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
 #include <vector>
-#include <climits>
+#include <limits.h>
 
 #include "GrafoDirigidoValorado.h"
-#include "Reparto.h"
+#include "village.h"
 
 bool resuelveCaso() {
 
-	int N;
-	std::cin >> N;
+	int V;
+	std::cin >> V;
 
 	if (!std::cin) return false;
 
-	int C;
-	std::cin >> C;
+	int E;
+	std::cin >> E;
 
-	GrafoDirigidoValorado<int> grafo(N);
+	GrafoDirigidoValorado<int> G(V);
+	int e1, e2, v;
 
-	int v, w, valor, i;
+	for (int i = 0; i < E; ++i) {
 
-	for (i = 0; i < C; ++i) {
+		std::cin >> e1 >> e2 >> v;
 
-		std::cin >> v >> w >> valor;
-		grafo.ponArista({ v - 1, w - 1, valor });
+		G.ponArista({ e1 - 1, e2 - 1, v });
 	}
 
-	int O, P;
-	std::cin >> O >> P;
+	int S, R;
+	std::cin >> S >> R;
 
-	std::vector<int> casas(P);
-	int casa;
+	std::vector<int> v_distribution(R);
+	for (auto & d : v_distribution) std::cin >> d;
 
-	for (i = 0; i < P; ++i) {
+	village v_org(G, S - 1);
+	village v_dest(G.inverso(), S - 1);
 
-		std::cin >> casa;
-		casas[i] = casa - 1;
+	int min_cost = 0, i = 0, cost_org, cost_dest;
+	bool possible = true;
+
+	while (i < R && possible) {
+
+		int dist = v_distribution[i] - 1;
+
+		cost_org = v_org.min_cost(dist);
+		cost_dest = v_dest.min_cost(dist);
+
+		if (cost_org == INT_MAX || cost_dest == INT_MAX) possible = false;
+		else min_cost += (cost_org + cost_dest);
+
+		i++;
 	}
 
-	Reparto reparto(grafo, O - 1); // Realizamos el calculo de distancias desde la oficina a las casas.
-
-	bool posible = true;
-	int esfuerzoTotal = 0, esfuerzoParcial;
-	i = 0;
-
-	while (i < casas.size() && posible) {
-
-		esfuerzoParcial = reparto.getEsfuerzo(casas[i]);
-
-		if (esfuerzoParcial == INT_MAX) posible = false;
-		else esfuerzoTotal += esfuerzoParcial;
-
-		++i;
-	}
-
-	if (posible) {
-
-		GrafoDirigidoValorado<int> grafoInverso = grafo.inverso();
-		Reparto repartoIverso(grafoInverso, O - 1); // Realizamos el calculo desde cada una de las casas a la oficina;
-
-		i = 0;
-
-		while (i < casas.size() && posible) {
-
-			esfuerzoParcial = repartoIverso.getEsfuerzo(casas[i]);
-
-			if (esfuerzoParcial == INT_MAX) posible = false;
-			else esfuerzoTotal += esfuerzoParcial;
-
-			++i;
-		}
-
-		if (posible) std::cout << esfuerzoTotal;
-		else std::cout << "Imposible";
-	}
+	if (possible) std::cout << min_cost;
 	else std::cout << "Imposible";
 
 	std::cout << std::endl;

@@ -1,37 +1,54 @@
-Ôªø// Nombre del alumno: V√≠ctor Chamizo Rodr√≠guez
+// Nombre del alumno: VÌctor Chamizo RodrÌguez
 // Usuario del Juez: TAIS58
 
+/*
+	EXPLICACI”N: 
+
+		Para resolver el problema se ha utilizado un grafo no dirigido y una b˙squeda en profundidad que
+		encuentra la maxima componente conexa del grafo, de esta forma se consigue el grupo mas grande 
+		de amistades en la ciudad
+
+
+	COSTES:
+		
+		- Tanto en el bucle FOR de la constructora de "max_friends" como en el metodo privado DFS, 
+		  en el peor de los casos se recorren todos los vertices del grafo asÌ como sus aristas.
+
+
+	COSTE TOTAL:
+
+		O(V + E) -> siendo V el numero de vertices del grafo y E el numero de aristas.
+*/
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <vector>
-#include "Grafo.h"
-#include "MaximaComponenteConexa.h"
 
+#include "Grafo.h"
+#include "max_friends.h"
 
 void resuelveCaso() {
 
-	int nPersonas; //Vertices del grafo
-	int paresAmigos; //Aristas del grafo
+	int V;
+	std::cin >> V;
 
-	std::cin >> nPersonas >> paresAmigos;
+	Grafo G(V);
 
-	Grafo grafo(nPersonas); //Inicializamos el grafo con el numero de vertices que va a tener.
+	int E;
+	std::cin >> E;
 
-	int amigo1, amigo2;
+	int e1, e2;
 
-	for (int i = 0; i < paresAmigos; ++i) {
+	for (int i = 0; i < E; ++i) {
 
-		std::cin >> amigo1 >> amigo2;
+		std::cin >> e1 >> e2;
 
-		//Con esta funci√≥n colcamos las aristas con los vertices correspondientes.
-		grafo.ponArista(amigo1 - 1, amigo2 - 1); 
+		G.ponArista(e1 - 1, e2 - 1);
 	}
 
-	MaximaComponenteConexa mcc(grafo);
+	max_friends friends(G);
 
-	std::cout << mcc.maximo() << std::endl;
+	std::cout << friends.max() << std::endl;
 }
 
 int main() {
@@ -43,8 +60,7 @@ int main() {
 
 	int numCasos;
 	std::cin >> numCasos;
-	for (int i = 0; i < numCasos; ++i)
-		resuelveCaso();
+	for (int i = 0; i < numCasos; ++i) resuelveCaso();
 
 #ifndef DOMJUDGE
 	std::cin.rdbuf(cinbuf);

@@ -1,13 +1,13 @@
-// Nombre del alumno: Víctor Chamizo Rodríguez
+ï»¿// Nombre del alumno: VÃ­ctor Chamizo RodrÃ­guez
 // Usuario del Juez: TAIS58
 
 /*
 	EXPLICACION:
 
-		Para resolver este problema se usa el algoritmo de Dijkstra, para hayar el camino minimo desde el vertice
-		de origen al vertice de destino. Para calcular el numero maximo de ratones que pueden completar el laberinto
-		dentro del tiempo dado se aplica el algoritmo en el grafo inverso, de estar forma se calcula cuanto tarda cada
-		raton en llegar a la salida.
+		El problema se resuelve aplicando el algoritmo de Dijkstra, que calcula el camino minimo desde
+		el punto de orgen al punto de destino. Para calcular el numero de veces que se puede llegar a ese
+		destino se cuenta con un vector que contabiliza el numero de veces que el coste de llegar al
+		vertice es el mismo.
 
 
 	COSTES:
@@ -16,18 +16,21 @@
 		- El coste de hacer push() y pop() en la cola de prioridad indexada -> O(log(n)) siendo n el numero de elementos de la cola.
 		- El coste de hacer update() en la cola de prioridad indexada -> O(log(n)) siendo n el numero de elementos de la cola.
 
+		- Al ser un grafo NO dirigido el algoritmo se repite para cada uno de los sentidos entre los vertices, por 
+		  tanto la complejidad de las operaciones se realizan dos veces por cada arista -> O(2 * E)
 
-	COSE TOTAL:
 
-		O(E * log(V)) -> siendo E el numero de aristas que contiene el grafo y V el numero de vertices.
+	COSTE TOTAL:
+
+		- O(E * log(V)) -> siendo E el numero de aristas del grafo y V el numero de vertices.
 */
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 
-#include "GrafoDirigidoValorado.h"
-#include "labyrinth.h"
+#include "GrafoValorado.h"
+#include "school.h"
 
 bool resuelveCaso() {
 
@@ -36,10 +39,10 @@ bool resuelveCaso() {
 
 	if (!std::cin) return false;
 
-	int S, T, E;
-	std::cin >> S >> T >> E;
+	int E;
+	std::cin >> E;
 
-	GrafoDirigidoValorado<int> G(V);
+	GrafoValorado<int> G(V);
 	int e1, e2, v;
 
 	for (int i = 0; i < E; ++i) {
@@ -49,9 +52,9 @@ bool resuelveCaso() {
 		G.ponArista({ e1 - 1, e2 - 1, v });
 	}
 
-	labyrinth labth(G.inverso(), S - 1);
+	school sch(G);
 
-	std::cout << labth.min_mouses(T) << std::endl;
+	std::cout << sch.n_paths(G.V() - 1) << std::endl;
 
 	return true;
 }

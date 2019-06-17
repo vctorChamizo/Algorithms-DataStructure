@@ -1,43 +1,58 @@
 // Nombre del alumno: Víctor Chamizo Rodríguez
 // Usuario del Juez: TAIS58
 
+/*
+	EXPLICACION:
+
+		Para solucionar este problema se ha usado el algoritmo de Prim (arbol de recubrimiento minimo)
+		para poder unir todas las islas con el menor coste posibe. Si es imposible unir alguna de las islas,
+		en el vector de marcado aparecerá como no visitado (FALSE).
+
+
+	COSTES:
+
+		- Hacer top() en la cola de prioridad -> O(1).
+		- Hacer push() y pop() en la cola de prioridad -> O(log(n)) siendo n el numero de elementos de la cola.
+		- Las llamadas a visit -> O(E * log(E)) siendo E el numero de aristas del grafo.
+
+		- Por tanto el coste de hacer push() y pop() E veces (O(E * log(E)) + el coste de visit.
+
+
+	COSTE TOTAL:
+
+		O(E * log(E)) -> siendo E el numero de aristas del grafo.
+*/
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <vector>
 
 #include "GrafoValorado.h"
-#include "CostePuentes.h"
-
+#include "bridges.h"
 
 bool resuelveCaso() {
 
-	//Inicializamos grafo Valorado
-
-	int V; //Numero de islas
-
+	int V;
 	std::cin >> V;
 
 	if (!std::cin) return false;
 
-	GrafoValorado<int> grafo(V);
-
-	int E; //Numero de puentes que se pueden construir
-
+	int E;
 	std::cin >> E;
 
-	int v, w, valor; //Islas que unen los puentes y coste de dicho puente
+	GrafoValorado<int> G(V);
+	int e1, e2, v;
 
-	for (auto i = 0; i < E; ++i) {
+	for (int i = 0; i < E; ++i) {
 
-		std::cin >> v >> w >> valor;
-		
-		grafo.ponArista({ v - 1, w - 1, valor });
+		std::cin >> e1 >> e2 >> v;
+
+		G.ponArista({ e1 - 1, e2 - 1, v });
 	}
 
-	CostePuentes cPuentes(grafo);
+	bridges b(G);
 
-	if (cPuentes.hayPuentes()) std::cout << cPuentes.getCosteMinimo();
+	if (b.is_possible()) std::cout << b.min_cost();
 	else std::cout << "No hay puentes suficientes";
 
 	std::cout << std::endl;
