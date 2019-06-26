@@ -4,33 +4,27 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include "Ovejas.h"
 
+#include "Ovejas.h"
 
 bool resuelveCaso() {
 
 	int C;
-
 	std::cin >> C;
 
-	if (!std::cin)
-		return false;
+	if (!std::cin) return false;
 
 	int F;
-
 	std::cin >> F;
 
 	Imagen imagen(F, std::vector<char>(C));
 
 	for (int i = 0; i < F; ++i)
-		for (int j = 0; j < C; ++j)
-			std::cin >> imagen[i][j];
+		for (int j = 0; j < C; ++j) std::cin >> imagen[i][j];
 	
 	Ovejas ovejas(imagen);
 
-	std::cout << ovejas.getOvejasBlancas();
-	
-	std::cout << std::endl;
+	std::cout << ovejas.getOvejasBlancas() << std::endl;
 
 	return true;
 }
