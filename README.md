@@ -28,14 +28,16 @@ The exercises have been divided mainly into three sections: Fundamentals of Algo
  - Greedy algorithms
  - Dynamic programming
  
- # 
+# 
  
- ![Quote of Dijkstra](https://i.pinimg.com/originals/e3/02/aa/e302aa942e8f2099a313b8137c0f4881.jpg)
+### Implementation
+The implementation of the algorithms and data structures was carried out using C ++
  
- ## Implementation
- The implementation of the algorithms and data structures was carried out using C ++
+### Author
+The project has been done to [Victor Chamizo](https://github.com/vctorChamizo)
  
- ## Author
- Teh has beeb done to [Victor Chamizo](https://github.com/vctorChamizo)
-
-
+# 
+ 
+![Quote of Dijkstra](https://i.pinimg.com/originals/e3/02/aa/e302aa942e8f2099a313b8137c0f4881.jpg)
+ 
+#### Happy coding!
