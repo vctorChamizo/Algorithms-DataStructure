@@ -32,7 +32,7 @@ The exercises have been divided mainly into three sections: Fundamentals of Algo
 The implementation of the algorithms and data structures was carried out using C ++
  
 ## Author
-The project has been done to [Victor Chamizo](https://github.com/vctorChamizo).
+The project has been carried out by [Victor Chamizo](https://github.com/vctorChamizo).
  
 #### 
  
