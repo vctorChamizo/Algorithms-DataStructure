@@ -1,9 +1,10 @@
 # Algorithms Techniques & Data Structures
 
-##### This project wants to reflect different algorithm implementations and the creation of data structures to solve various problems.
-##### The exercises have been divided mainly into three sections: Fundamentals of Algorithms, Data structures and Advance algorithmic techniques.
+This project wants to reflect different algorithm implementations and the creation of data structures to solve various problems.
+####
+The exercises have been divided mainly into three sections: Fundamentals of Algorithms, Data structures and Advance algorithmic techniques.
 
-## Documntation
+## Documentation
 
 ### Fundamentals of Algorithms
  - Analyzing the efficiency of algorithms
