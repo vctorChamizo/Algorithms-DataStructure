@@ -28,8 +28,8 @@ The exercises have been divided mainly into three sections: Fundamentals of Algo
  - Greedy algorithms
  - Dynamic programming
  
-## Implementation
-The implementation of the algorithms and data structures was carried out using C ++
+## Technologies
+The implementation of the algorithms and data structures was carried out using **C++**.
  
 ## Author
 The project has been carried out by [Victor Chamizo](https://github.com/vctorChamizo).
